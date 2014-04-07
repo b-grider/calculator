@@ -5,15 +5,22 @@ class parentheses: public exception {
     return "Your parentheses do match up. Please try again.";
   }
 } par;
+
 class stackSize: public exception {
   virtual const char* what() const throw()
   {
     return "Your operation does not have two valid operands to use.";
   }
 } toosmall;
-Expression::Expression() {
 
+Expression::Expression(string a) {					//What was the point of this?			ASK
+	userinput = a;
 }
+
+void Expression::getinput() {
+	cout << userinput << endl;
+}
+
 bool Expression::isOperator(string c) {
     if(c[0] == '+' || c[0] == '*' || c[0] == '-' || c[0] == '/') {
     	return true;
@@ -22,6 +29,7 @@ bool Expression::isOperator(string c) {
         return false;
     }
 }
+
 int Expression::precedence(string s) {
     int prec;
         if(s[0] == '/' || s[0] == '*') {
@@ -35,18 +43,33 @@ int Expression::precedence(string s) {
         }
     return prec;
 }
+
 int Expression::stringToInt(string a) {
     int number;
     istringstream num(a);
     num >> number;
     return number;
 }
+
 string Expression::intToString(int n) {
     ostringstream temp;
     temp << n;
     string str = temp.str();
     return str;
 }
+
+void Expression::testmeth(string userinput) {										//ASK doesn't it defeat purpose of making userinput a field by passing userinput?
+		for (int i = 0; i < userinput.length(); i++) {									//AND BELOW
+		stringstream ss;
+		string oneChar;
+		ss << userinput[i];
+			cout << ss.str() << endl << oneChar << endl;
+		ss >> oneChar;
+			cout << ss.str() << endl << oneChar << endl;
+			}
+		
+}
+
 string Expression::shunting(string userinput) {
 
 	// This entire block is performing the Reverse Polish Notation on the input.
@@ -59,8 +82,8 @@ string Expression::shunting(string userinput) {
 		ss >> oneChar;
 		if (userinput[i] != ' ') {
 			// Check if it is a numeric value, converts the character at element 'i'
-			// into a double, if true, then it is a numeric value
-			if (istringstream(oneChar) >> num) {
+			// into a double, if true, then it is a numeric value							//ASK
+			if (istringstream(oneChar) >> num) {											//uhhh how does this work?? lol 'istringstream(oneChar) >> num'
 				while (userinput[i + 1] != ' ' && i < userinput.length()) {
 					i++;
 					oneChar += userinput[i];
@@ -133,6 +156,7 @@ string Expression::shunting(string userinput) {
 	}
 	return rpn;
 }
+
 string Expression::evaluate(string rpn) {
     double num;
     //While there are input tokens left

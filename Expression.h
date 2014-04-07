@@ -23,11 +23,15 @@ class Expression {
             stack<string> mainStack;
             queue<string> mainQueue;
         public:
-            Expression();
+            Expression(string);
             bool isOperator(string);
             int precedence(string);
             string shunting(string);
             string evaluate(string);
+			int stringToInt(string);
+			string intToString(int);
+			void getinput();
+			void testmeth(string);
             //Number* simplification(Number* numerator, Number* denominator);
             //string exponentiate(Number* base, Number* power);
             //Number* decimalToFraction(double dec);

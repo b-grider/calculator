@@ -11,7 +11,7 @@ private:
   		string input;
 public:
  		int main();
-   		double fractionToDecimal(string input);
+   		//double fractionToDecimal(string input);
 };
 
 #endif	/* DRIVER_H */
