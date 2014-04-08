@@ -11,19 +11,11 @@ class stackSize: public exception {
     return "Your operation does not have two valid operands to use.";
   }
 } toosmall;
-Expression::Expression() {
-
+Expression::Expression(string a) {
+    userinput = a;
 }
 bool Expression::isOperator(string c) {
     if(c[0] == '+' || c[0] == '*' || c[0] == '-' || c[0] == '/') {
-    	return true;
-    }
-    else {
-        return false;
-    }
-}
-bool Expression::isOperator(char c) {
-    if(c == '+' || c == '*' || c == '-' || c == '/') {
     	return true;
     }
     else {
@@ -68,7 +60,6 @@ string Expression::shunting(string userinput) {
 			// Check if it is a numeric value, converts the character at element 'i'
 			// into a double, if true, then it is a numeric value
 			if (istringstream(oneChar) >> num) {
-                                char c = userinput[i+1];
 				while (i < userinput.length() && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
 					i++;
 					oneChar += userinput[i];
@@ -77,10 +68,27 @@ string Expression::shunting(string userinput) {
 				// If number, push onto queue, remember, we are passing it back as a string!
 				mainQueue.push(oneChar);
 			}
-
-			// Check if character is an operator, if so, add to stack
-
+                        else if(userinput[i] = '-' && i == 0) {
+                            string firstNeg;
+                            firstNeg = "-";
+                            while (i < (userinput.length()-1) && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
+                                i++;
+                                firstNeg+= userinput[i];
+                            }
+                            mainQueue.push(firstNeg);
+			}
+                        // Check if character is an operator, if so, add to stack
 			else if (isOperator(oneChar)) {
+                                if(userinput.substr(i+1, 1) == "-") {
+                                    string tempNum;
+                                    i++;
+                                    tempNum = "-";
+                                    while (i < (userinput.length()-1) && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
+                                        i++;
+                                        tempNum += userinput[i];
+                                    }
+                                    mainQueue.push(tempNum);
+				}
 				if (mainStack.empty()) {
 					mainStack.push(oneChar);
 				}
@@ -246,3 +254,4 @@ Number* Expression::decimalToFraction(double dec) {
 
 }
 */
+
