@@ -2,19 +2,19 @@
 
 
 string Review::getExpression() {
-	return expression.front()
+	return expressions.front();
 }
 string Review::getExpression(int index) {
-	return answers.At(index)
+	return answers.at(index);
 }
 string Review::getAnswer() {
-	return answers.front()
+	return answers.front();
 }
 string Review::getAnswer(int index) {
-	return answers.At(index)
+	return answers.at(index);
 }
 string Review::getAll() {
-    
+
 }
 
 

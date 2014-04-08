@@ -68,7 +68,7 @@ string Expression::shunting(string userinput) {
 				// If number, push onto queue, remember, we are passing it back as a string!
 				mainQueue.push(oneChar);
 			}
-                        else if(userinput[i] = '-' && i == 0) {
+                        else if(userinput[i] == '-' && i == 0) {
                             string firstNeg;
                             firstNeg = "-";
                             while (i < (userinput.length()-1) && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
