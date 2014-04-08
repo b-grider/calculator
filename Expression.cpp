@@ -11,8 +11,8 @@ class stackSize: public exception {
     return "Your operation does not have two valid operands to use.";
   }
 } toosmall;
-Expression::Expression(string a) {
-	userinput = a;
+Expression::Expression() {
+
 }
 bool Expression::isOperator(string c) {
     if(c[0] == '+' || c[0] == '*' || c[0] == '-' || c[0] == '/') {
@@ -152,79 +152,85 @@ string Expression::evaluate(string rpn) {
     double num;
     //While there are input tokens left
     for (int i = 0; i < rpn.length(); i++) {
-		stringstream ss;
-		string oneChar;
-		ss << rpn[i];
-		ss >> oneChar;
+        stringstream ss;
+        string oneChar;
+        ss << rpn[i];
+        ss >> oneChar;
+        if(rpn[i] != ' ') {
+            while(rpn.substr(i+1, 1) != " " && i < rpn.length()) {
+                i++;
+                oneChar += rpn[i];
+            }
     //while(!rpn.empty()) {
-        //Read the next token from input.
-        //If the token is a value
-        if (istringstream(oneChar) >> num) {
-                //Push it onto the stack.
-                mainStack.push(oneChar);
-        }
-        //Otherwise, the token is an operator (operator here includes both operators and functions).
-        else if(rpn[i] == ' ') {
-        }
-        else {
-        //It is known a priority that the operator takes 2 arguments.
-        //If there are fewer than 2 values on the stack
-            if(mainStack.size() < 2) {
-                //(Error) The user has not input sufficient values in the expression.
-                throw toosmall;
+            //Read the next token from input.
+            //If the token is a value
+            if (istringstream(oneChar) >> num) {
+                    //Push it onto the stack.
+                    mainStack.push(oneChar);
+            }
+            //Otherwise, the token is an operator (operator here includes both operators and functions).
+            else if(rpn[i] == ' ') {
             }
             else {
-            //Else, Pop the top n values from the stack.
-            //Evaluate the operator, with the values as arguments.
-            //Push the returned results, if any, back onto the stack.
-                double answer, number1, number2;
-                string num1, num2;
-                if(oneChar == "+") {
-                    num2 = mainStack.top();
-                    mainStack.pop();
-                    num1 = mainStack.top();
-                    mainStack.pop();
-                    number1 = stringToDouble(num1);
-                    number2 = stringToDouble(num2);
-                    answer = number1 + number2;
-                    mainStack.push(doubleToString(answer));
+            //It is known a priority that the operator takes 2 arguments.
+            //If there are fewer than 2 values on the stack
+                if(mainStack.size() < 2) {
+                    //(Error) The user has not input sufficient values in the expression.
+                    throw toosmall;
                 }
-                else if(oneChar == "-") {
-                    num2 = mainStack.top();
-                    mainStack.pop();
-                    num1 = mainStack.top();
-                    mainStack.pop();
-                    number1 = stringToDouble(num1);
-                    number2 = stringToDouble(num2);
-                    answer = number1 - number2;
-                    mainStack.push(doubleToString(answer));
+                else {
+                //Else, Pop the top n values from the stack.
+                //Evaluate the operator, with the values as arguments.
+                //Push the returned results, if any, back onto the stack.
+                    double answer, number1, number2;
+                    string num1, num2;
+                    if(oneChar == "+") {
+                        num2 = mainStack.top();
+                        mainStack.pop();
+                        num1 = mainStack.top();
+                        mainStack.pop();
+                        number1 = stringToDouble(num1);
+                        number2 = stringToDouble(num2);
+                        answer = number1 + number2;
+                        mainStack.push(doubleToString(answer));
+                    }
+                    else if(oneChar == "-") {
+                        num2 = mainStack.top();
+                        mainStack.pop();
+                        num1 = mainStack.top();
+                        mainStack.pop();
+                        number1 = stringToDouble(num1);
+                        number2 = stringToDouble(num2);
+                        answer = number1 - number2;
+                        mainStack.push(doubleToString(answer));
+                    }
+                    else if(oneChar == "*") {
+                        num2 = mainStack.top();
+                        mainStack.pop();
+                        num1 = mainStack.top();
+                        mainStack.pop();
+                        istringstream numeroUno(num1);
+                        number1 = stringToDouble(num1);
+                        number2 = stringToDouble(num2);
+                        answer = number1 * number2;
+                        mainStack.push(doubleToString(answer));
+                    }
+                    else if(oneChar == "/") {
+                        num2 = mainStack.top();
+                        mainStack.pop();
+                        num1 = mainStack.top();
+                        mainStack.pop();
+                        number1 = stringToDouble(num1);
+                        number2 = stringToDouble(num2);
+                        answer = number1 / number2;
+                        mainStack.push(doubleToString(answer));
+                    }
                 }
-                else if(oneChar == "*") {
-                    num2 = mainStack.top();
-                    mainStack.pop();
-                    num1 = mainStack.top();
-                    mainStack.pop();
-                    istringstream numeroUno(num1);
-                    number1 = stringToDouble(num1);
-                    number2 = stringToDouble(num2);
-                    answer = number1 * number2;
-                    mainStack.push(doubleToString(answer));
-                }
-                else if(oneChar == "/") {
-                    num2 = mainStack.top();
-                    mainStack.pop();
-                    num1 = mainStack.top();
-                    mainStack.pop();
-                    number1 = stringToDouble(num1);
-                    number2 = stringToDouble(num2);
-                    answer = number1 / number2;
-                    mainStack.push(doubleToString(answer));
-                }
+                //If there is only one value in the stack
+                //That value is the result of the calculation.
+                //Otherwise, there are more values in the stack
+                //(Error) The user input has too many values.
             }
-            //If there is only one value in the stack
-            //That value is the result of the calculation.
-            //Otherwise, there are more values in the stack
-            //(Error) The user input has too many values.
         }
     }
     string final = mainStack.top();
