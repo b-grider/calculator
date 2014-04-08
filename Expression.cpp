@@ -12,7 +12,7 @@ class stackSize: public exception {
   }
 } toosmall;
 Expression::Expression(string a) {
-
+	userinput = a;
 }
 bool Expression::isOperator(string c) {
     if(c[0] == '+' || c[0] == '*' || c[0] == '-' || c[0] == '/') {
