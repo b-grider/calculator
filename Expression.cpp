@@ -5,22 +5,15 @@ class parentheses: public exception {
     return "Your parentheses do match up. Please try again.";
   }
 } par;
-
 class stackSize: public exception {
   virtual const char* what() const throw()
   {
     return "Your operation does not have two valid operands to use.";
   }
 } toosmall;
+Expression::Expression() {
 
-Expression::Expression(string a) {					//What was the point of this?			ASK
-	userinput = a;
 }
-
-void Expression::getinput() {
-	cout << userinput << endl;
-}
-
 bool Expression::isOperator(string c) {
     if(c[0] == '+' || c[0] == '*' || c[0] == '-' || c[0] == '/') {
     	return true;
@@ -29,7 +22,14 @@ bool Expression::isOperator(string c) {
         return false;
     }
 }
-
+bool Expression::isOperator(char c) {
+    if(c == '+' || c == '*' || c == '-' || c == '/') {
+    	return true;
+    }
+    else {
+        return false;
+    }
+}
 int Expression::precedence(string s) {
     int prec;
         if(s[0] == '/' || s[0] == '*') {
@@ -43,35 +43,19 @@ int Expression::precedence(string s) {
         }
     return prec;
 }
-
-int Expression::stringToInt(string a) {
-    int number;
+double Expression::stringToDouble(string a) {
+    double number;
     istringstream num(a);
     num >> number;
     return number;
 }
-
-string Expression::intToString(int n) {
+string Expression::doubleToString(double n) {
     ostringstream temp;
     temp << n;
     string str = temp.str();
     return str;
 }
-
-void Expression::testmeth(string userinput) {										//ASK doesn't it defeat purpose of making userinput a field by passing userinput?
-		for (int i = 0; i < userinput.length(); i++) {									//AND BELOW
-		stringstream ss;
-		string oneChar;
-		ss << userinput[i];
-			cout << ss.str() << endl << oneChar << endl;
-		ss >> oneChar;
-			cout << ss.str() << endl << oneChar << endl;
-			}
-		
-}
-
 string Expression::shunting(string userinput) {
-
 	// This entire block is performing the Reverse Polish Notation on the input.
 	double num;
 	// Read all characters one at a time
@@ -82,19 +66,20 @@ string Expression::shunting(string userinput) {
 		ss >> oneChar;
 		if (userinput[i] != ' ') {
 			// Check if it is a numeric value, converts the character at element 'i'
-			// into a double, if true, then it is a numeric value	
-			//string next = userinput.substr(i+1,1);
-			if (istringstream(oneChar) >> num) {											
-				while (userinput[i + 1] != ' ' && i < userinput.length() && !isOperator(userinput.substr(i+1,1))) {
+			// into a double, if true, then it is a numeric value
+			if (istringstream(oneChar) >> num) {
+                                char c = userinput[i+1];
+				while (i < userinput.length() && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
 					i++;
-					//next = userinput.substr(i+1,1);
 					oneChar += userinput[i];
+
 				}
 				// If number, push onto queue, remember, we are passing it back as a string!
 				mainQueue.push(oneChar);
 			}
 
 			// Check if character is an operator, if so, add to stack
+
 			else if (isOperator(oneChar)) {
 				if (mainStack.empty()) {
 					mainStack.push(oneChar);
@@ -116,10 +101,11 @@ string Expression::shunting(string userinput) {
 				// Operations are moved from stack to queue.
 				// First in last out, so the last operation would be sent to the queue
 				else {
-					mainQueue.push(mainStack.top());
-					mainStack.pop();
-					i--;
-
+                                    while(!mainStack.empty() && mainStack.top() != "(") {
+                                        mainQueue.push(mainStack.top());
+                                        mainStack.pop();
+                                    }
+                                    mainStack.push(oneChar);
 				}
 			}
 
@@ -144,6 +130,7 @@ string Expression::shunting(string userinput) {
 			}
 
 		}
+                //string stackElement = mainStack.top();
 	}
 	// Puts all the operations in stack to queue
 	for (int j = mainStack.size() - 1; j >= 0; j--) {
@@ -153,12 +140,14 @@ string Expression::shunting(string userinput) {
 	int qSize = mainQueue.size();
 	// String builder, puts it into Reverse Polish Notation
 	for (int k = 0; k < qSize; k++) {
-		rpn += mainQueue.front() + " ";
+            //if(mainQueue.front() != "(" || mainQueue.front() != ")") {
+                rpn += mainQueue.front() + " ";
 		mainQueue.pop();
+            //}
 	}
+
 	return rpn;
 }
-
 string Expression::evaluate(string rpn) {
     double num;
     //While there are input tokens left
@@ -188,27 +177,27 @@ string Expression::evaluate(string rpn) {
             //Else, Pop the top n values from the stack.
             //Evaluate the operator, with the values as arguments.
             //Push the returned results, if any, back onto the stack.
-                int answer, number1, number2;
+                double answer, number1, number2;
                 string num1, num2;
                 if(oneChar == "+") {
                     num2 = mainStack.top();
                     mainStack.pop();
                     num1 = mainStack.top();
                     mainStack.pop();
-                    number1 = stringToInt(num1);
-                    number2 = stringToInt(num2);
+                    number1 = stringToDouble(num1);
+                    number2 = stringToDouble(num2);
                     answer = number1 + number2;
-                    mainStack.push(intToString(answer));
+                    mainStack.push(doubleToString(answer));
                 }
                 else if(oneChar == "-") {
                     num2 = mainStack.top();
                     mainStack.pop();
                     num1 = mainStack.top();
                     mainStack.pop();
-                    number1 = stringToInt(num1);
-                    number2 = stringToInt(num2);
+                    number1 = stringToDouble(num1);
+                    number2 = stringToDouble(num2);
                     answer = number1 - number2;
-                    mainStack.push(intToString(answer));
+                    mainStack.push(doubleToString(answer));
                 }
                 else if(oneChar == "*") {
                     num2 = mainStack.top();
@@ -216,20 +205,20 @@ string Expression::evaluate(string rpn) {
                     num1 = mainStack.top();
                     mainStack.pop();
                     istringstream numeroUno(num1);
-                    number1 = stringToInt(num1);
-                    number2 = stringToInt(num2);
+                    number1 = stringToDouble(num1);
+                    number2 = stringToDouble(num2);
                     answer = number1 * number2;
-                    mainStack.push(intToString(answer));
+                    mainStack.push(doubleToString(answer));
                 }
                 else if(oneChar == "/") {
                     num2 = mainStack.top();
                     mainStack.pop();
                     num1 = mainStack.top();
                     mainStack.pop();
-                    number1 = stringToInt(num1);
-                    number2 = stringToInt(num2);
+                    number1 = stringToDouble(num1);
+                    number2 = stringToDouble(num2);
                     answer = number1 / number2;
-                    mainStack.push(intToString(answer));
+                    mainStack.push(doubleToString(answer));
                 }
             }
             //If there is only one value in the stack
@@ -251,6 +240,3 @@ Number* Expression::decimalToFraction(double dec) {
 
 }
 */
-
-
-
