@@ -1,5 +1,5 @@
 #ifndef EXPRESSION_H
-#define EXPRESSION_H
+#define	EXPRESSION_H
 //#include "Number.h"
 #include <iostream>
 #include <stack>
@@ -23,15 +23,14 @@ class Expression {
             stack<string> mainStack;
             queue<string> mainQueue;
         public:
-            Expression(string);
+            Expression();
             bool isOperator(string);
+            bool isOperator(char);
             int precedence(string);
             string shunting(string);
             string evaluate(string);
-			int stringToInt(string);
-			string intToString(int);
-			void getinput();
-			void testmeth(string);
+            double stringToDouble(string);
+            string doubleToString(double);
             //Number* simplification(Number* numerator, Number* denominator);
             //string exponentiate(Number* base, Number* power);
             //Number* decimalToFraction(double dec);
@@ -40,5 +39,4 @@ class Expression {
 
 
 #endif
-
 
