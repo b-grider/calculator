@@ -82,10 +82,12 @@ string Expression::shunting(string userinput) {
 		ss >> oneChar;
 		if (userinput[i] != ' ') {
 			// Check if it is a numeric value, converts the character at element 'i'
-			// into a double, if true, then it is a numeric value							//ASK
-			if (istringstream(oneChar) >> num) {											//uhhh how does this work?? lol 'istringstream(oneChar) >> num'
-				while (userinput[i + 1] != ' ' && i < userinput.length()) {
+			// into a double, if true, then it is a numeric value	
+			//string next = userinput.substr(i+1,1);
+			if (istringstream(oneChar) >> num) {											
+				while (userinput[i + 1] != ' ' && i < userinput.length() && !isOperator(userinput.substr(i+1,1))) {
 					i++;
+					//next = userinput.substr(i+1,1);
 					oneChar += userinput[i];
 				}
 				// If number, push onto queue, remember, we are passing it back as a string!
