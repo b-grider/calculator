@@ -11,7 +11,7 @@ class stackSize: public exception {
     return "Your operation does not have two valid operands to use.";
   }
 } toosmall;
-Expression::Expression() {
+Expression::Expression(string a) {
 
 }
 bool Expression::isOperator(string c) {

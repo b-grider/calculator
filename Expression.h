@@ -23,7 +23,7 @@ class Expression {
             stack<string> mainStack;
             queue<string> mainQueue;
         public:
-            Expression();
+            Expression(string);
             bool isOperator(string);
             bool isOperator(char);
             int precedence(string);
