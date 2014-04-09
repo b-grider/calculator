@@ -227,7 +227,6 @@ string Expression::evaluate(string rpn) {
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        istringstream numeroUno(num1);
                         number1 = stringToDouble(num1);
                         number2 = stringToDouble(num2);
                         answer = number1 * number2;
