@@ -1,8 +1,8 @@
-#include "help.h"
+#include "Help.h"
 
 using namespace std;
 
-help::printMenu()
+void Help::printMenu()
 {
     cout<<"**Initial Menu Here**"<<endl;
 	char menu = 'y';
@@ -14,7 +14,7 @@ help::printMenu()
 		cout<<"Return to Menu?  y/n"<<endl;
 	}while(menu == 'y');
 }
-help::move(int navigate)
+void Help::move(int navigate)
 {
 	if(navigate == 1)
 		cout<<"**Selection One**"<<endl;

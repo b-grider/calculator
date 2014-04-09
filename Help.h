@@ -10,7 +10,7 @@ class Help {
        private:
            int navigate;
        public:
-           printMenu();
-           move(int navigate);
+           void printMenu();
+           void move(int navigate);
 };
 #endif	/* HELP_H */
