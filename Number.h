@@ -1,7 +1,6 @@
 #include <string>
 #include "Fraction.h"
 using namespace std;
-<<<<<<< HEAD
 
 
 class Number {
