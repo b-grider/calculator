@@ -12,7 +12,7 @@ class stackSize: public exception {
   }
 } toosmall;
 Expression::Expression(string a) {
-	userinput = a;
+    userinput = a;
 }
 bool Expression::isOperator(string c) {
     if(c[0] == '+' || c[0] == '*' || c[0] == '-' || c[0] == '/') {
@@ -121,6 +121,16 @@ string Expression::shunting(string userinput) {
 			// in the stack also until ) is found. When ) is found, pop ) off,
 			// and move all operations below to the queue until ( is found.
 			else if (oneChar == "(") {
+                if(userinput.substr(i+1, 1) == "-") {
+                    string inside;
+                    i++;
+                    inside = "-";
+                    while (i < (userinput.length()-1) && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
+                        i++;
+                        inside += userinput[i];
+                    }
+                    mainQueue.push(inside);
+                }
 				mainStack.push(oneChar);
 			}
 
@@ -217,7 +227,6 @@ string Expression::evaluate(string rpn) {
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        istringstream numeroUno(num1);
                         number1 = stringToDouble(num1);
                         number2 = stringToDouble(num2);
                         answer = number1 * number2;
