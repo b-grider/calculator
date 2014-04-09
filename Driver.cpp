@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-    string str = "(23+ (-5) - 8) /(2 * 5)";
+    string str = "3+((-3)/4)";
 	//string str = "2+5/6*8-(5/2)*78";
 	Expression* calc = new Expression(str);
 	//calc->testmeth(str);
