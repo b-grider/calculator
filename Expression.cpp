@@ -121,6 +121,16 @@ string Expression::shunting(string userinput) {
 			// in the stack also until ) is found. When ) is found, pop ) off,
 			// and move all operations below to the queue until ( is found.
 			else if (oneChar == "(") {
+                if(userinput.substr(i+1, 1) == "-") {
+                    string inside;
+                    i++;
+                    inside = "-";
+                    while (i < (userinput.length()-1) && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
+                        i++;
+                        inside += userinput[i];
+                    }
+                    mainQueue.push(inside);
+                }
 				mainStack.push(oneChar);
 			}
 

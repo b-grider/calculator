@@ -1,9 +1,19 @@
-/*#include "Fraction.h"
-Fraction::Fraction()
-{
-
+#include "Fraction.h"
+Fraction::Fraction(string a) {
+    int i =0;
+    string top, bottom;
+    while(a[i] != '/'){
+        top += a[i];
+        i++;
+    }
+    i++;
+    while(i < a.length()) {
+        bottom += a[i];
+        i++;
+    }
+    cout << top << endl << "---" << endl << bottom;
 }
-Fraction::Fraction(int numer, int denom)
+Fraction::Fraction(double numer, double denom)
 {
     numerator = numer;
     denominator = denom;
