@@ -1,5 +1,6 @@
 #ifndef LOG_H
 #define LOG_H
+#include "Number.h"
 #include <iostream>
 #include <string>
 #include <exception>

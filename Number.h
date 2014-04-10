@@ -1,7 +1,7 @@
 #ifndef NUMBER_H
 #define NUMBER_H
-#include "Fraction.h"
 #include "Log.h"
+#include "Fraction.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -10,12 +10,8 @@ class Number {
     private:
         string num;
     public:
+        Number();
         Number(string);
-        bool isPolynomial(string);
-        bool isIrrational(string);
-        bool isInteger(string);
-        bool isFraction(string);
-        bool isLog(string);
         /*virtual Number& operator+(Number&)=0;
         virtual Number& operator-(Number&)=0;
         virtual Number& operator*(Number&)=0;

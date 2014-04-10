@@ -16,10 +16,10 @@ int main() {
 		//cout << temp << endl;
 	//cout << calc->evaluate(temp) << endl;
 	//calc->getinput();
-	
+
 
 	//Fraction* f = new Fraction("256/5634");
-        Number* n = new Number("25/89");
+    Number* n = new Number("25/89");
 
 }
 /*double Driver::fractionToDecimal(string input) {
