@@ -36,8 +36,12 @@ bool Number::isIrrational(string str) {
     else
       return false;
 }
-bool Number::isInteger(string) {
-    return false;
+bool Number::isInteger(string str) {
+  double num;
+    if(istringstream(str) >> num)
+        return true;
+    else
+        return false;
 }
 bool Number::isFraction(string str) {
     int i = 0;
