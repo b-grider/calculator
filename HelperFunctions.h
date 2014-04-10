@@ -2,6 +2,10 @@
 #include <string>
 #include <sstream>
 #include "Number.h"
+#include "Log.h"
+#include "Fraction.h"
+#include "Integer.h"
+#include "Polynomial.h"
 using namespace std;
 #ifndef HELPERFUNCTIONS_H
 #define	HELPERFUNCTIONS_H
