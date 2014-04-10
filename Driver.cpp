@@ -26,10 +26,6 @@ int main() {
     HelperFunctions* h = new HelperFunctions(s);
     HelperFunctions* i = new HelperFunctions(t);
 
-    string s = "25";
-    
-    HelperFunctions* h = new HelperFunctions(s);
-
 }
 /*double Driver::fractionToDecimal(string input) {
 
