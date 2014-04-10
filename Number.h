@@ -1,20 +1,18 @@
-#ifndef NUMBER_H
-#define NUMBER_H
-
-#include "Fraction.h"
-#include "Integer.h"
-#include "Log.h"
-#include "Fraction.h"
+//#ifndef NUMBER_H
+//#define NUMBER_H
 #include <iostream>
 #include <string>
 #include <sstream>
 using namespace std;
 class Number {
     private:
-        string num;
+        Number* num;
     public:
         Number();
         Number(string);
+        virtual void simplify() = 0;
+        virtual string toString() = 0;
+        virtual double getDouble() = 0;
         /*virtual Number& operator+(Number&)=0;
         virtual Number& operator-(Number&)=0;
         virtual Number& operator*(Number&)=0;
@@ -22,7 +20,7 @@ class Number {
         virtual Number* simplify(Number*, Number*) = 0;*/
 
 };
-#endif
+//#endif
 /*class Polynomial : Number {
 
 private:
