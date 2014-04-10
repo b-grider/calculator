@@ -2,6 +2,7 @@
 #include<iostream>
 #include"Expression.h"
 #include "Number.h"
+#include "HelperFunctions.h"
 
 using namespace std;
 
@@ -19,7 +20,10 @@ int main() {
 
 
 	//Fraction* f = new Fraction("256/5634");
-    Number* n = new Number("25/89");
+    string s = "25";
+    string t = "log_3:9";
+    HelperFunctions* h = new HelperFunctions(s);
+    HelperFunctions* i = new HelperFunctions(t);
 
 }
 /*double Driver::fractionToDecimal(string input) {

@@ -9,7 +9,6 @@ Log::Log(string a) {
 Log::Log(string b, string num) {
     istringstream(b) >> base;
     istringstream(num) >> number;
-
 }
 /*Log::Log(Number* base, Number* number) {
 

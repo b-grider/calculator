@@ -59,7 +59,7 @@ bool HelperFunctions::isPolynomial(string str) {
     return false;
 }
 bool HelperFunctions::isIrrational(string str) {
-    if(str.compare("pi") == 0 || str.compare("PI") == 0 || str.compare("Pi") == 0 || str.compare("pI")) 
+    if(str.compare("pi") == 0 || str.compare("PI") == 0 || str.compare("Pi") == 0 || str.compare("pI") == 0)
         return true;
     else if(str.compare("e") == 0 || str.compare("E") == 0)
         return true;

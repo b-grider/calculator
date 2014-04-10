@@ -7,6 +7,7 @@
       <itemPath>../Expression.h</itemPath>
       <itemPath>../Fraction.h</itemPath>
       <itemPath>../Help.h</itemPath>
+      <itemPath>../HelperFunctions.h</itemPath>
       <itemPath>../Integer.h</itemPath>
       <itemPath>../Irrational.h</itemPath>
       <itemPath>../Log.h</itemPath>
@@ -24,6 +25,7 @@
       <itemPath>../Expression.cpp</itemPath>
       <itemPath>../Fraction.cpp</itemPath>
       <itemPath>../Help.cpp</itemPath>
+      <itemPath>../HelperFunctions.cpp</itemPath>
       <itemPath>../Integer.cpp</itemPath>
       <itemPath>../Log.cpp</itemPath>
       <itemPath>../Number.cpp</itemPath>

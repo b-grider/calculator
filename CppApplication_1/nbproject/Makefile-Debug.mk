@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1472/Review.o \
 	${OBJECTDIR}/_ext/1472/Integer.o \
 	${OBJECTDIR}/_ext/1472/Expression.o \
+	${OBJECTDIR}/_ext/1472/HelperFunctions.o \
 	${OBJECTDIR}/_ext/1472/Log.o \
 	${OBJECTDIR}/_ext/1472/Fraction.o
 
@@ -97,6 +98,11 @@ ${OBJECTDIR}/_ext/1472/Expression.o: ../Expression.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/1472
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1472/Expression.o ../Expression.cpp
+
+${OBJECTDIR}/_ext/1472/HelperFunctions.o: ../HelperFunctions.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1472
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1472/HelperFunctions.o ../HelperFunctions.cpp
 
 ${OBJECTDIR}/_ext/1472/Log.o: ../Log.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1472
