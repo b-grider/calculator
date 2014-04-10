@@ -14,7 +14,7 @@ Number::Number(string a) {
 
     }
     else if(isInteger(a)) {
-
+        Integer* integer = new Integer(a);
     }
     else if(isFraction(a)) {
         Fraction* f = new Fraction(a);
