@@ -6,13 +6,13 @@ void Help::printMenu()
 {
     cout<<"**Initial Menu Here**"<<endl;
 	char menu = 'y';
-	do
-	{
-		int selection;
-		cin>>selection;
-		move(selection);
-		cout<<"Return to Menu?  y/n"<<endl;
-	}while(menu == 'y');
+	int selection;
+	cin>>selection;
+	move(selection);
+	cout<<"Return to Menu?  y/n"<<endl;
+	cin>>menu;
+	if(menu == 'y')
+		printMenu();
 }
 void Help::move(int navigate)
 {
