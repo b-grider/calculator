@@ -23,7 +23,7 @@ int main() {
     string s = "25";
     
     HelperFunctions* h = new HelperFunctions(s);
-    cout<<&h;
+    
 
 }
 /*double Driver::fractionToDecimal(string input) {
