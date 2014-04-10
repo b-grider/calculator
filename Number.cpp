@@ -85,7 +85,7 @@ bool Number::isFraction(string str) {
        i++;
     }
 }
-bool Number::isLog(string) {
+bool Number::isLog(string a) {
     if(a[0] == 'l' && a[1] == 'o' && a[2] == 'g') {
         return true;
     }
