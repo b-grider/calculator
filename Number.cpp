@@ -20,7 +20,28 @@ Number::Number(string a) {
         Fraction* f = new Fraction(a);
     }
     else if(isLog(a)) {
-
+        string b, num;
+          int i = 4;
+          //Specified base for the log
+          if(a[3] == '_' ) {
+              while(a[i] != ':') {
+                  b += a[i];
+                  i++;
+              }
+              i++;
+              while(i <= a.length()-1) {
+                  num += a[i];
+                  i++;
+              }
+          }
+          //This is log base 10
+          else if(a[3] == ':') {
+              while(i <= a.length()-1) {
+                  num += a[i];
+                  i++;
+              }
+          }
+          Log* l = new Log(b, num);
     }
     else {
         throw notNum;
