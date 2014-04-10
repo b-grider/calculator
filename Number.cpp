@@ -35,11 +35,7 @@ bool Number::isIrrational(string str) {
     else if(str.compare("e") == 0 || str.compare("E") == 0)
         return true;
     else
-<<<<<<< HEAD
         return false;
-=======
-      return false;
->>>>>>> branch 'master' of https://github.com/bdgrider/calculator.git
 }
 bool Number::isInteger(string str) {
     double num;
