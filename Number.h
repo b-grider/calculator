@@ -4,6 +4,7 @@
 #include "Log.h"
 #include <iostream>
 #include <string>
+#include <sstream>
 using namespace std;
 class Number {
     private:
