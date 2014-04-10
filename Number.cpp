@@ -26,6 +26,13 @@ Number::Number(string a) {
     }
 }
 bool Number::isPolynomial(string) {
+    int i = 0;
+    while(str[i])
+    {
+        if(str[i] == ('+'||'-'||'*'||'/'))
+            return true;
+        i++;
+    }
     return false;
 }
 bool Number::isIrrational(string str) {
