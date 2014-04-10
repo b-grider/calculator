@@ -3,15 +3,15 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include "Number.h"
 
 using namespace std;
 class Integer
 {
 private:
-	int num;
+	int i;
 public:
-	Integer();
-	Integer(int num);
+	Integer(string num);
 };
 
 
