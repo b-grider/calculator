@@ -11,7 +11,7 @@ Fraction::Fraction(string a) {
         bottom += a[i];
         i++;
     }
-    cout << top << endl << "---" << endl << bottom;
+    cout << top << "/" << bottom;
 }
 Fraction::Fraction(double numer, double denom)
 {

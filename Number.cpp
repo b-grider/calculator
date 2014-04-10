@@ -19,19 +19,44 @@ Number::Number(string a) {
         Fraction* f = new Fraction(a);
     }
     else if(isLog(a)) {
-
+        string b, num;
+        int i = 4;
+        //Specified base for the log
+        if(a[3] == '_' ) {
+            while(a[i] != ':') {
+                b += a[i];
+                i++;
+            }
+            i++;
+            while(i <= a.length()-1) {
+                num += a[i];
+                i++;
+            }
+        }
+        //This is log base 10
+        else if(a[3] == ':') {
+            while(i <= a.length()-1) {
+                num += a[i];
+                i++;
+            }
+        }
+        Log* l = new Log(b);
     }
     else {
         throw notNum;
     }
 }
-bool Number::isPolynomial(string) {
+bool Number::isPolynomial(string str) {
     return false;
 }
-bool Number::isIrrational(string) {
+bool Number::isIrrational(string str) {
     return false;
 }
-bool Number::isInteger(string) {
+bool Number::isInteger(string str) {
+    double num;
+    if(istringstream(str) >> num) {
+
+    }
     return false;
 }
 bool Number::isFraction(string str) {
@@ -43,6 +68,8 @@ bool Number::isFraction(string str) {
        i++;
     }
 }
-bool Number::isLog(string) {
-    return false;
+bool Number::isLog(string a) {
+    if(a[0] == 'l' && a[1] == 'o' && a[2] == 'g') {
+        return true;
+    }
 }

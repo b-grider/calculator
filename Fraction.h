@@ -1,11 +1,12 @@
 #ifndef FRACTION_H_
 #define FRACTION_H_
+#include "Number.h"
 #include <iostream>
 #include <string>
 #include <exception>
 
 using namespace std;
-class Fraction{
+class Fraction : Number {
 private:
 	double numerator;
 	double denominator;

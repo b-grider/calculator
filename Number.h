@@ -1,9 +1,10 @@
 #ifndef NUMBER_H
 #define NUMBER_H
-#include "Fraction.h"
+//#include "Fraction.h"
 #include "Log.h"
 #include <iostream>
 #include <string>
+#include <sstream>
 using namespace std;
 class Number {
     private:
