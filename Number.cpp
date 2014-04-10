@@ -50,7 +50,8 @@ Number::Number(string a) {
 
 
 bool Number::isPolynomial(string str) {
-    int i = 0;
+    //if first number is negative, i=1 should bypass it
+    int i = 1;
     while(str[i])
     {
         if(str[i] == ('+'||'-'||'*'||'/'))
