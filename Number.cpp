@@ -26,10 +26,9 @@ Number::Number(string a) {
         throw notNum;
     }
 }
-<<<<<<< HEAD
+
+
 bool Number::isPolynomial(string str) {
-=======
-bool Number::isPolynomial(string) {
     int i = 0;
     while(str[i])
     {
@@ -37,7 +36,6 @@ bool Number::isPolynomial(string) {
             return true;
         i++;
     }
->>>>>>> ef79d7666be8055d09f7d9bc08e1a4ff31ddba6f
     return false;
 }
 bool Number::isIrrational(string str) {
@@ -46,17 +44,12 @@ bool Number::isIrrational(string str) {
     else if(str.compare("e") == 0 || str.compare("E") == 0)
         return true;
     else
-<<<<<<< HEAD
+
         return false;
 }
-bool Number::isInteger(string str) {
-    double num;
-=======
-      return false;
-}
+
 bool Number::isInteger(string str) {
   double num;
->>>>>>> ef79d7666be8055d09f7d9bc08e1a4ff31ddba6f
     if(istringstream(str) >> num)
         return true;
     else
