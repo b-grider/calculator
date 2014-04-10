@@ -174,8 +174,8 @@ string Expression::evaluate(string rpn) {
         string oneChar;
         ss << rpn[i];
         ss >> oneChar;
-        if(rpn[i] != ' ') {
-            while(rpn.substr(i+1, 1) != " " && i < rpn.length()) {
+        if(rpn[i] != ' ') {													//Will there ever be spaces in a proper rpn string? unecessary.
+            while(rpn.substr(i+1, 1) != " " && i < rpn.length()) {			//Won't first condition always be satisfied??
                 i++;
                 oneChar += rpn[i];
             }
