@@ -25,7 +25,6 @@ class Expression {
         public:
             Expression(string);
             bool isOperator(string);
-            bool isOperator(char);
             int precedence(string);
             string shunting(string);
             string evaluate(string);
