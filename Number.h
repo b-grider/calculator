@@ -1,6 +1,6 @@
 #ifndef NUMBER_H
 #define NUMBER_H
-//#include "Fraction.h"
+#include "Fraction.h"
 #include "Log.h"
 #include <iostream>
 #include <string>

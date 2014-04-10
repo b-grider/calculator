@@ -32,6 +32,7 @@ Number::Number(string a) {
                 num += a[i];
                 i++;
             }
+            Log* l = new Log(b, num);
         }
         //This is log base 10
         else if(a[3] == ':') {
@@ -39,25 +40,40 @@ Number::Number(string a) {
                 num += a[i];
                 i++;
             }
+            Log* l = new Log(num);
         }
-        Log* l = new Log(b);
+        
     }
     else {
         throw notNum;
     }
 }
 bool Number::isPolynomial(string str) {
+    int i = 0;
+    while(str[i])
+    {
+        if(str[i] == ('+'||'-'||'*'||'/'))
+            return true;
+        i++;
+    }
     return false;
 }
 bool Number::isIrrational(string str) {
-    return false;
-}
-bool Number::isInteger(string str) {
-    double num;
-    if(istringstream(str) >> num) {
+    if(str.compare("pi") == 0 || str.compare("PI") == 0 || str.compare("Pi") == 0 || str.compare("pI")) 
+        return true;
+    else if(str.compare("e") == 0 || str.compare("E") == 0)
+        return true;
+    else
 
-    }
-    return false;
+        return false;
+}
+
+bool Number::isInteger(string str) {
+  double num;
+    if(istringstream(str) >> num)
+        return true;
+    else
+        return false;
 }
 bool Number::isFraction(string str) {
     int i = 0;
