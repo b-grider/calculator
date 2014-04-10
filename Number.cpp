@@ -28,8 +28,13 @@ Number::Number(string a) {
 bool Number::isPolynomial(string) {
     return false;
 }
-bool Number::isIrrational(string) {
-    return false;
+bool Number::isIrrational(string str) {
+    if(str.compare("pi") == 0 || str.compare("PI") == 0 || str.compare("Pi") == 0 || str.compare("pI")) 
+        return true;
+    else if(str.compare("e") == 0 || str.compare("E") == 0)
+        return true;
+    else
+      return false;
 }
 bool Number::isInteger(string) {
     return false;
