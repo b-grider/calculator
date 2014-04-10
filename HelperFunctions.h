@@ -2,10 +2,15 @@
 #include <string>
 #include <sstream>
 #include "Number.h"
+#include "Integer.h"
 using namespace std;
 #ifndef HELPERFUNCTIONS_H
 #define	HELPERFUNCTIONS_H
 class HelperFunctions {
+private:
+    string str;
+public:
+    
     HelperFunctions(string);
     bool isPolynomial(string);
     bool isIrrational(string);
