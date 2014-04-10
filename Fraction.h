@@ -6,7 +6,7 @@
 #include <exception>
 
 using namespace std;
-class Fraction{
+class Fraction {
 private:
 	double numerator;
 	double denominator;

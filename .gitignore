@@ -19,3 +19,6 @@
 *.exe
 *.out
 *.app
+/CppApplication_1/nbproject/private/
+/CppApplication_1/build/Debug/
+/CppApplication_1/dist/Debug/

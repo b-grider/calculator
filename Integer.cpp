@@ -1,11 +1,12 @@
 #include "Integer.h"
 
-Integer::Integer() 
+Integer::Integer(string num)
 {
-    
+    Number* number = new Number(num);
 }
-Integer::Integer(int num)
+
+/*Integer::Integer(int num)
 {
-    
-}
+  integer = num;  
+}*/
 
