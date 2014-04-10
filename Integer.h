@@ -6,8 +6,7 @@
 #include "Number.h"
 
 using namespace std;
-class Integer
-{
+class Integer : public Number {
 private:
 	int i;
 public:

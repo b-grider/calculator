@@ -7,7 +7,7 @@
 #include <sstream>
 
 using namespace std;
-class Log {
+class Log : public Number {
 private:
 	double base;
 	double number;

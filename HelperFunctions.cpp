@@ -13,7 +13,7 @@ HelperFunctions::HelperFunctions(string a) {
 
     }
     else if(isInteger(a)) {
-
+        Integer* i = new Integer(a);
     }
     else if(isFraction(a)) {
         Fraction* f = new Fraction(a);

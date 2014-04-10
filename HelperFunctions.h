@@ -6,6 +6,7 @@
 #include "Fraction.h"
 #include "Integer.h"
 #include "Polynomial.h"
+
 using namespace std;
 #ifndef HELPERFUNCTIONS_H
 #define	HELPERFUNCTIONS_H

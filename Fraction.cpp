@@ -15,8 +15,8 @@ Fraction::Fraction(string a) {
 }
 Fraction::Fraction(double numer, double denom)
 {
-    numerator = numer;
-    denominator = denom;
+    //numerator = numer;
+    //denominator = denom;
 }
 
 /*
