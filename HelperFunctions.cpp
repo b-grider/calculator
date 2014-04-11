@@ -10,7 +10,7 @@ HelperFunctions::HelperFunctions(string a) {
         //Polynomial* p = new Polynomial();
     }
     else if(isIrrational(a)) {
-        //Irrational* i = new Irrational(a);
+        Irrational* i = new Irrational(a);
     }
     else if(isInteger(a)) {
         Integer* i = new Integer(a);
@@ -42,7 +42,7 @@ HelperFunctions::HelperFunctions(string a) {
               }
               Log* m = new Log(num);
           }
-         
+
     }
     else {
         throw notNum;
@@ -63,13 +63,25 @@ bool HelperFunctions::isPolynomial(string str) {
         return false;
 }
 bool HelperFunctions::isIrrational(string str) {
-    if(str.compare("pi") == 0 || str.compare("PI") == 0 || str.compare("Pi") == 0 || str.compare("pI") == 0)
-        return true;
-    else if(str.compare("e") == 0 || str.compare("E") == 0)
-        return true;
-    else
+    int i = 0;
+    int num;
+    while(i < str.length()) {
+        if(!(istringstream(str.substr(i, 1)) >> num)) {
+            if(str[i] == 'p' && str[i+1] == 'i' || str[i] == 'P' && str[i+1] == 'i' || str[i] == 'p' && str[i+1] == 'I' || str[i] == 'P' && str[i+1] == 'I') {
+                return true;
+                }
+            else if(str[i] == 'e'|| str[i] == 'E') {
+                return true;
+                }
+            else {
 
-        return false;
+                return false;
+                }
+            }
+        else if(istringstream(str.substr(i, 1)) >> num) {
+            i++;
+        }
+    }
 }
 
 bool HelperFunctions::isInteger(string str) {

@@ -15,15 +15,14 @@ Fraction::Fraction(string a) {
     denominator = new Integer(bottom);
     cout << top << endl << "---" << endl << bottom;
 }
-Fraction::Fraction(double numer, double denom)
-{
+Fraction::Fraction(double numer, double denom){
     //numerator = numer;
     //denominator = denom;
 }
 vector<int> Fraction::primeFactorization(){
     vector<int>* factors = new vector<int>;
     int i = 2;
-    //int value = this->value;
+    int value = this->value;
     if(value == 1)
     {
         factors->push_back(1);

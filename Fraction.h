@@ -11,7 +11,7 @@ class Fraction : public Number {
 private:
         Integer* numerator;
         Integer* denominator;
-        Integer* value;
+        int value;
 public:
 	Fraction(string);
 	Fraction(double, double);
