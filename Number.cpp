@@ -3,5 +3,5 @@ Number:: Number(string str) {
     num = str;
 }
 Number::Number() {
-
+    num = "";
 }

@@ -5,13 +5,17 @@
 
 class Irrational{
 private:
-string PI;
-string e;
-string typeofIrrational;
+    string PI;
+    string e;
+    string typeofIrrational;
 public:
-Irrational(string typeofIrrational);
-~Irrational();
-Number* Add(string typeofIrrational);
+    Irrational();
+    Irrational(string);
+    ~Irrational();
+    Number* Add(string);
+    string addSubtractPi();
+    string multiplyPi();
+    string addSubtractE();
+    string multiplyE();
 };
-#endif	/* IRRATIONAL_H */
-
+#endif

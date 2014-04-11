@@ -12,6 +12,4 @@ class Polynomial{
         ~Polynomial();
         string Polynomial(Number* num1,Number num2);*/
 };
-#endif	/* POLYNOMIAL_H */
-
-
+#endif	

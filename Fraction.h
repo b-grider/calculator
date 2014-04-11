@@ -4,15 +4,20 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include "Integer.h"
 
 using namespace std;
 class Fraction : public Number {
 private:
-	Number* numerator;
-	Number* denominator;
+        Integer* numerator;
+        Integer* denominator;
+        Integer* value;
 public:
 	Fraction(string);
 	Fraction(double, double);
+	vector<int> primeFactorization();
+        int greatestCommonFactor(Integer*);
+        int gcd(int, int);
         Number* getNumerator();
         Number* getDenominator();
 	//Fraction operator+(Fraction&);

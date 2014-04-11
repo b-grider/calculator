@@ -4,12 +4,20 @@
 #include <string>
 #include <exception>
 #include "Number.h"
+#include <vector>
 
 using namespace std;
 class Integer : public Number {
 private:
-	int i;
+
+    int i;
 public:
-	Integer(string num);
+    int value;
+	Integer(string );
+    Integer(int);
+    int getValue();
+    double getDoubleValue();
+    string toString();
+    void simplify();
 };
 #endif

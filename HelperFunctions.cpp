@@ -7,10 +7,10 @@ class invalidNumber: public exception {
 } notNum;
 HelperFunctions::HelperFunctions(string a) {
     if(isPolynomial(a)) {
-
+        //Polynomial* p = new Polynomial();
     }
     else if(isIrrational(a)) {
-
+        //Irrational* i = new Irrational(a);
     }
     else if(isInteger(a)) {
         Integer* i = new Integer(a);
@@ -32,6 +32,7 @@ HelperFunctions::HelperFunctions(string a) {
                   num += a[i];
                   i++;
               }
+              Log* l = new Log(b, num);
           }
           //This is log base 10
           else if(a[3] == ':') {
@@ -39,8 +40,9 @@ HelperFunctions::HelperFunctions(string a) {
                   num += a[i];
                   i++;
               }
+              Log* m = new Log(num);
           }
-          Log* l = new Log(b, num);
+         
     }
     else {
         throw notNum;
@@ -49,14 +51,16 @@ HelperFunctions::HelperFunctions(string a) {
 
 bool HelperFunctions::isPolynomial(string str) {
     //if first number is negative, i=1 should bypass it
-    int i = 1;
-    while(str[i])
-    {
-        if(str[i] == ('+'||'-'||'*'||'/'))
-            return true;
+    int i = 0;
+    if(str[0] == '-') {
         i++;
     }
-    return false;
+    while(i < str.length()) {
+        if(str[i] == ('+'||'-'||'*'||'/'))
+            return true;
+            i++;
+        }
+        return false;
 }
 bool HelperFunctions::isIrrational(string str) {
     if(str.compare("pi") == 0 || str.compare("PI") == 0 || str.compare("Pi") == 0 || str.compare("pI") == 0)
@@ -69,7 +73,7 @@ bool HelperFunctions::isIrrational(string str) {
 }
 
 bool HelperFunctions::isInteger(string str) {
-  double num;
+    double num;
     if(istringstream(str) >> num)
         return true;
     else

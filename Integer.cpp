@@ -10,3 +10,21 @@ Integer::Integer(string num) {
   integer = num;  
 }*/
 
+Integer::Integer(int a) {
+    value = a;
+}
+int Integer::getValue(){
+    return value;
+}
+double Integer::getDoubleValue(){
+    return (double) value;
+}
+string Integer::toString(){
+    ostringstream os;
+    os<< value;
+    return os.str();
+}
+void Integer::simplify(){
+    
+}
+

@@ -2,7 +2,7 @@
 Irrational::Irrational() {
     
 }
-Irrational::Irrational(string typeOfIrrationalNumber) {
+Irrational::Irrational(string type) {
     
 }
 string Irrational::addSubtractPi() {
