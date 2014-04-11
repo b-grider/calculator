@@ -36,16 +36,15 @@ int Expression::precedence(string s) {
         }
     return prec;
 }
-double Expression::stringToDouble(string a) {
-    double number;
-    istringstream num(a);
-    num >> number;
-    return number;
+Number* Expression::stringToNumber(string a) {
+    HelperFunctions* n = new HelperFunctions(a);
+    return n->help();
 }
-string Expression::doubleToString(double n) {
+string Expression::numberToString(Number* n) {
     ostringstream temp;
     temp << n;
     string str = temp.str();
+    //n->toString();
     return str;
 }
 string Expression::shunting(string userinput) {
@@ -201,47 +200,49 @@ string Expression::evaluate(string rpn) {
                 //Else, Pop the top n values from the stack.
                 //Evaluate the operator, with the values as arguments.
                 //Push the returned results, if any, back onto the stack.
-                    double answer, number1, number2;
+                    Number* answer;
+                    Number* number1;
+                    Number* number2;
                     string num1, num2;
                     if(oneChar == "+") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToDouble(num1);
-                        number2 = stringToDouble(num2);
-                        answer = number1 + number2;
-                        mainStack.push(doubleToString(answer));
+                        number1 = stringToNumber(num1);
+                        number2 = stringToNumber(num2);
+                        //answer = number1 + number2;
+                        //numStack.push(numberToString(answer));
                     }
                     else if(oneChar == "-") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToDouble(num1);
-                        number2 = stringToDouble(num2);
-                        answer = number1 - number2;
-                        mainStack.push(doubleToString(answer));
+                        number1 = stringToNumber(num1);
+                        number2 = stringToNumber(num2);
+                        //answer = number1 - number2;
+                        //numStack.push(numberToString(answer));
                     }
                     else if(oneChar == "*") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToDouble(num1);
-                        number2 = stringToDouble(num2);
-                        answer = number1 * number2;
-                        mainStack.push(doubleToString(answer));
+                        number1 = stringToNumber(num1);
+                        number2 = stringToNumber(num2);
+                        //answer = number1 * number2;
+                        //numStack.push(numberToString(answer));
                     }
                     else if(oneChar == "/") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToDouble(num1);
-                        number2 = stringToDouble(num2);
-                        answer = number1 / number2;
-                        mainStack.push(doubleToString(answer));
+                        number1 = stringToNumber(num1);
+                        number2 = stringToNumber(num2);
+                        //answer = number1 / number2;
+                        //numStack.push(numberToString(answer));
                     }
                 }
                 //If there is only one value in the stack

@@ -5,10 +5,13 @@ Log::Log(string a) {
     if(istringstream(a) >> temp) {
         number = temp;
     }
+    cout << "The log has a base of: " << base << " and the number is: " << number << endl;
+    cout << "This gives us: " << a << endl;
 }
 Log::Log(string b, string num) {
     istringstream(b) >> base;
     istringstream(num) >> number;
+    cout << "The log has a base of: " << base << " and the number is: " << number << endl;
 }
 /*Log::Log(Number* base, Number* number) {
 

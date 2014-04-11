@@ -7,11 +7,12 @@ Integer::Integer(string num) {
 
 /*Integer::Integer(int num)
 {
-  integer = num;  
+  integer = num;
 }*/
 
 Integer::Integer(int a) {
     value = a;
+    cout << "The integer has a value of: " << value << endl;
 }
 int Integer::getValue(){
     return value;
@@ -25,6 +26,6 @@ string Integer::toString(){
     return os.str();
 }
 void Integer::simplify(){
-    
+
 }
 

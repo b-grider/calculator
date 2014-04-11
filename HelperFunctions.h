@@ -14,9 +14,10 @@ using namespace std;
 class HelperFunctions {
 private:
     string str;
+    string input;
 public:
-
     HelperFunctions(string);
+    Number* help();
     bool isPolynomial(string);
     bool isIrrational(string);
     bool isInteger(string);

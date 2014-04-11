@@ -6,43 +6,47 @@ class invalidNumber: public exception {
   }
 } notNum;
 HelperFunctions::HelperFunctions(string a) {
-    if(isPolynomial(a)) {
-        //Polynomial* p = new Polynomial();
+    input = a;
+}
+Number* HelperFunctions::help() {
+    Number* n;
+    if(isPolynomial(input)) {
+        //Polynomial* i = new Polynomial();
     }
-    else if(isIrrational(a)) {
-        Irrational* i = new Irrational(a);
+    else if(isIrrational(input)) {
+        Irrational* n = new Irrational(input);
     }
-    else if(isInteger(a)) {
-        Integer* i = new Integer(a);
+    else if(isInteger(input)) {
+        Integer* n = new Integer(input);
     }
-    else if(isFraction(a)) {
-        Fraction* f = new Fraction(a);
+    else if(isFraction(input)) {
+        Fraction* n = new Fraction(input);
     }
-    else if(isLog(a)) {
+    else if(isLog(input)) {
         string b, num;
           int i = 4;
           //Specified base for the log
-          if(a[3] == '_' ) {
-              while(a[i] != ':') {
-                  b += a[i];
+          if(input[3] == '_' ) {
+              while(input[i] != ':') {
+                  b += input[i];
                   i++;
               }
               i++;
-              while(i <= a.length()-1) {
-                  num += a[i];
+              while(i <= input.length()-1) {
+                  num += input[i];
                   i++;
               }
-              Log* l = new Log(b, num);
+              Log* n = new Log(b, num);
           }
           //This is log base 10
-          else if(a[3] == ':') {
-              while(i <= a.length()-1) {
-                  num += a[i];
+          else if(input[3] == ':') {
+              while(i <= input.length()-1) {
+                  num += input[i];
                   i++;
               }
-              Log* m = new Log(num);
+              Log* n = new Log(num);
           }
-
+        return n;
     }
     else {
         throw notNum;
