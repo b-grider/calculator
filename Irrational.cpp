@@ -46,13 +46,15 @@ Number* Irrational::addPi(Number* num) {
                     ostringstream(tempString) << temp;
                     result = tempString + "pi";
                     i = Num.length();
+                    break;
                 }
                 else{
                     result = Num + "+pi";
                     i = Num.length();
+                    break;
                 }   
         }
-     
+        result = Num + "+pi";
     }
     res->setNumber(result);
     return res;
@@ -76,13 +78,15 @@ Number* Irrational::subtractPi(Number* num) {
                     ostringstream(tempString) << temp;
                     result = tempString + "pi";
                     i = Num.length();
+                    break;
                 }
                 else{
                     result = Num + "-pi";
                     i = Num.length();
+                    break;
                 }   
         }
-     
+        result = Num + "-pi";
     }
     res->setNumber(result);
     return res;
@@ -106,13 +110,15 @@ Number* Irrational::multiplyPi(Number* num) {
                     ostringstream(tempString) << temp;
                     result = tempString + "pi^2";
                     i = Num.length();
+                    break;
                 }
                 else{
                     result = Num + "pi";
                     i = Num.length();
+                    break;
                 }   
         }
-     
+        result = Num + "pi";
     }
     res->setNumber(result);
     return res;
@@ -136,13 +142,15 @@ Number* Irrational::addE(Number* num) {
                     ostringstream(tempString) << temp;
                     result = tempString + "e";
                     i = Num.length();
+                    break;
                 }
                 else{
                     result = Num + "+e";
                     i = Num.length();
+                    break;
                 }   
         }
-     
+        result = Num + "+e";
     }
     res->setNumber(result);
     return res;
@@ -166,13 +174,15 @@ Number* Irrational::subtractE(Number* num) {
                     ostringstream(tempString) << temp;
                     result = tempString + "e";
                     i = Num.length();
+                    break;
                 }
                 else{
                     result = Num + "-e";
                     i = Num.length();
+                    break;
                 }   
         }
-     
+        result = Num + "+e";
     }
     res->setNumber(result);
     return res;
