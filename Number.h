@@ -11,6 +11,7 @@ class Number {
     public:
         Number();
         Number(string);
+		
         //virtual void simplify() = 0;
         //virtual string toString() = 0;
 		virtual Number* add(Number*)=0;
@@ -18,6 +19,17 @@ class Number {
 		virtual Number* multiply(Number*)=0;
 		virtual Number* divide(Number*)=0;
         //virtual Number* simplify(Number*) = 0;
+
+        string getNumber();
+        void setNumber(string);
+        /*virtual void simplify() = 0;
+        virtual string toString() = 0;
+        virtual double getDouble() = 0;
+        virtual Number& operator+(Number&)=0;
+        virtual Number& operator-(Number&)=0;
+        virtual Number& operator*(Number&)=0;
+        virtual Number& operator/(Number&)=0;
+        virtual Number* simplify(Number*, Number*) = 0;*/
 
 };
 #endif

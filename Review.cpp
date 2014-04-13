@@ -13,8 +13,8 @@ string Review::getAnswer() {
 string Review::getAnswer(int index) {
 	return answers.at(index);
 }
-string Review::getAll() {
-
-}
+/*string Review::getAll() {
+	return 
+}*/
 
 
