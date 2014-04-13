@@ -5,3 +5,9 @@ Number:: Number(string str) {
 Number::Number() {
     num = "";
 }
+string Number::getNumber(){
+    return num;
+}
+void Number::setNumber(string str){
+    num = str;
+}

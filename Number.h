@@ -11,12 +11,14 @@ class Number {
     public:
         Number();
         Number(string);
+        string getNumber();
+        void setNumber(string);
         //virtual void simplify() = 0;
         //virtual string toString() = 0;
 		virtual Number* add(Number*)=0;
 		virtual Number* subtract(Number*)=0;
 		virtual Number* multiply(Number*)=0;
-		virtual Number* divide(Number*)=0;
+		//virtual Number* divide(Number*)=0;
         //virtual Number* simplify(Number*) = 0;
 
 };
