@@ -18,10 +18,19 @@ private:
 public:
     HelperFunctions(string);
     Number* help();
+	/*bool isNegative(string);
     bool isPolynomial(string);
     bool isIrrational(string);
     bool isInteger(string);
     bool isFraction(string);
-    bool isLog(string);
+    bool isLog(string);*/
 };
+
+bool isNegative(string);
+bool isPolynomial(string);
+bool isIrrational(string);
+bool isInteger(string);
+bool isFraction(string);
+bool isLog(string);
+
 #endif

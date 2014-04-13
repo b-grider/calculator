@@ -2,7 +2,8 @@
 #include<iostream>
 #include"Expression.h"
 #include "Number.h"
-#include "HelperFunctions.h"
+#include "Helper.h"
+#include "Fraction.h"
 #include<vector>
 
 using namespace std;

@@ -18,7 +18,7 @@ Fraction.o: Fraction.cpp
 Help.o: Help.cpp
 	g++ -c Help.cpp
 
-HelperFunction.o: HelperFunction.cpp
+HelperFunctions.o: HelperFunctions.cpp
 	g++ -c HelperFunctions.cpp
 
 Integer.o: Integer.cpp

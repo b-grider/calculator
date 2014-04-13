@@ -53,20 +53,29 @@ Number* HelperFunctions::help() {
     }
 }
 
-bool HelperFunctions::isPolynomial(string str) {
-    //if first number is negative, i=1 should bypass it
-    int i = 0;
-    if(str[0] == '-') {
-        i++;
-    }
-    while(i < str.length()) {
-        if(str[i] == ('+'||'-'||'*'||'/'))
-            return true;
-            i++;
-        }
-        return false;
+bool isNegative(string str) {
+	if (str[0] == '-') {
+		return true;
+	}
+	return false;
 }
-bool HelperFunctions::isIrrational(string str) {
+
+bool isPolynomial(string str) {
+    if(!isFraction(str) && (str.find('/')< str.length())) {
+		return true;
+	}
+	if(!isNegative(str) && str.find('-')< str.length()) {
+		return true;
+	}
+	if(str.find('+') < str.length()) {
+		return true;
+	}
+	if(str.find('c') < str.length()) {
+		return true;
+	}
+		return false;
+}
+bool isIrrational(string str) {
     int i = 0;
     int num;
     while(i < str.length()) {
@@ -88,25 +97,23 @@ bool HelperFunctions::isIrrational(string str) {
     }
 }
 
-bool HelperFunctions::isInteger(string str) {
-    double num;
-    if(istringstream(str) >> num)
-        return true;
-    else
-        return false;
+bool isInteger(string str) {
+    string::const_iterator it = str.begin();
+	char neg = '-';
+    while (it != str.end() && ((std::isdigit(*it))||((*it) == '-'))) ++it;
+    return !str.empty() && it == str.end();
 }
-bool HelperFunctions::isFraction(string str) {
+bool isFraction(string str) {
     int i = 0;
-    while(i <= str.length()-1) {
-       if(str[i] == '/') {
+       if((str.find('/') < str.length()) && !((str.find('-') < str.length()) && !isNegative(str)) && !(str.find('+') < str.length()) && !(str.find('*') < str.length())) {
            return true;
         }
-       i++;
-    }
+		return false;
 }
-bool HelperFunctions::isLog(string a) {
-    if(a[0] == 'l' && a[1] == 'o' && a[2] == 'g') {
+bool isLog(string str) {
+    if(!isPolynomial(str) && (str.find("log") < str.length())) {
         return true;
     }
+	return false;
 }
 

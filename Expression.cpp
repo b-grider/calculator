@@ -70,7 +70,7 @@ string Expression::shunting(string userinput) {
 					oneChar += userinput[i];
 				}
 				// If number, push onto queue, remember, we are passing it back as a string!
-                                HelperFunctions* n = new HelperFunctions(oneChar);
+                                //HelperFunctions* n = new HelperFunctions(oneChar);
                                 mainQueue.push(oneChar);
 			}
                         else if(userinput[i] == '-' && i == 0) {
