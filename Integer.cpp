@@ -1,4 +1,7 @@
 #include "Integer.h"
+
+using namespace std;
+
 Integer::Integer(string num) {
     int number;
     istringstream num1(num);
@@ -28,4 +31,27 @@ string Integer::toString(){
 void Integer::simplify(){
 
 }
+
+/*
+Number* Integer::add(Number* a) {
+	if(a->toString) {
+		
+			}
+			//the number is another integer it can be added
+	if() {
+		
+			}//the number is a fraction it can be added
+}
+
+Number* Integer::subtract(Number*) {
+
+}
+
+Number* Integer::multiply(Number*) {
+
+}
+
+Number* Integer::divide(Number*) {
+
+}*/
 

@@ -3,17 +3,20 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include"Number.h"
 
 using namespace std;
+
 class Add {
 
 private:
 	Number* left;
 	Number* right;
+	Number* answer;
 public:
 	Add();
 	Add(Number* left, Number* right);
-	Number* answer();
+	Number* getanswer();
 
-}
+};
 #endif

@@ -13,11 +13,16 @@ private:
     int i;
 public:
     int value;
-	Integer(string );
+	Integer(string);
     Integer(int);
     int getValue();
     double getDoubleValue();
     string toString();
     void simplify();
-};
+		
+	/*Number* add(Number*);
+	Number* subtract(Number*);
+	Number* multiply(Number*);
+	Number* divide(Number*);
+*/};
 #endif

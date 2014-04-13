@@ -27,6 +27,7 @@ class Expression {
             Expression(string);
             bool isOperator(string);
             int precedence(string);
+			string solve();
             string shunting(string);
             string evaluate(string);
             Number* stringToNumber(string);

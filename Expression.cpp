@@ -1,5 +1,10 @@
 #include "Expression.h"
 #include "HelperFunctions.h"
+#include "Number.h"
+
+using namespace std;
+
+
 class parentheses: public exception {
   virtual const char* what() const throw()
   {
@@ -255,6 +260,7 @@ string Expression::evaluate(string rpn) {
     string final = mainStack.top();
     return final;
 }
+
 /*Number* Expression::simplification(Number* numerator, Number* denominator) {
 
 }

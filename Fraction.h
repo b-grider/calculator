@@ -20,6 +20,13 @@ public:
         int gcd(int, int);
         Number* getNumerator();
         Number* getDenominator();
+			
+		/*Number* add(Number*);
+		Number* subtract(Number*);
+		Number* multiply(Number*);
+		Number* divide(Number*);
+		*/
+		
 	//Fraction operator+(Fraction&);
 	//Fraction operator-(Fraction&);
 	//Fraction operator*(Fraction&);
