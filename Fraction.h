@@ -21,11 +21,11 @@ public:
         Number* getNumerator();
         Number* getDenominator();
 			
-		/*Number* add(Number*);
+		Number* add(Number*);
 		Number* subtract(Number*);
 		Number* multiply(Number*);
 		Number* divide(Number*);
-		*/
+		
 		
 	//Fraction operator+(Fraction&);
 	//Fraction operator-(Fraction&);

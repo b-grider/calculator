@@ -32,26 +32,31 @@ void Integer::simplify(){
 
 }
 
-/*
+
 Number* Integer::add(Number* a) {
-	if(a->toString) {
+	/*if(a->toString) {
 		
 			}
 			//the number is another integer it can be added
 	if() {
 		
-			}//the number is a fraction it can be added
+			}//the number is a fraction it can be added*/
+			Number * b = new Integer("5");
+			return b;
 }
 
-Number* Integer::subtract(Number*) {
-
+Number* Integer::subtract(Number* a) {
+	Number * b = new Integer("5");
+			return a;
 }
 
-Number* Integer::multiply(Number*) {
-
+Number* Integer::multiply(Number* a) {
+	Number * b = new Integer("5");
+			return a;
 }
 
-Number* Integer::divide(Number*) {
-
-}*/
+Number* Integer::divide(Number* a) {
+	Number * b = new Integer("5");
+			return a;
+}
 

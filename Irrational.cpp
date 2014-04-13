@@ -1,4 +1,7 @@
 #include "Irrational.h"
+
+using namespace std; 
+
 Irrational::Irrational() {
 
    }
@@ -23,6 +26,34 @@ Irrational::Irrational(string str) {
     }
     cout << num << endl;
 }
+
+/*Irrational::~Irrational() {
+	delete this;
+	//delete e;
+	//delete typeofIrrational;
+}*/
+
+Number* Irrational::add(Number* a) {
+	Number * b = new Irrational("3pi");
+	return b;
+}
+
+Number* Irrational::subtract(Number* a) {
+	Number * b = new Irrational("3pi");
+	return b;
+}
+
+Number* Irrational::multiply(Number* a) {
+	Number * b = new Irrational("3pi");
+	return b;
+}
+
+Number* Irrational::divide(Number* a) {
+	Number * b = new Irrational("3pi");
+	return b;
+}
+
+/*
 string Irrational::addSubtractPi() {
 
 }
@@ -35,4 +66,6 @@ string Irrational::addSubtractE() {
 string Irrational::multiplyE() {
 
 }
+*/
+
 

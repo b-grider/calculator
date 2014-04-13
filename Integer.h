@@ -20,9 +20,9 @@ public:
     string toString();
     void simplify();
 		
-	/*Number* add(Number*);
+	Number* add(Number*);
 	Number* subtract(Number*);
 	Number* multiply(Number*);
 	Number* divide(Number*);
-*/};
+};
 #endif

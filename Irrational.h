@@ -2,8 +2,9 @@
 #define IRRATIONAL_H
 #include "Number.h"
 
+using namespace std;
 
-class Irrational{
+class Irrational: public Number{
 private:
     string PI;
     string e;
@@ -11,11 +12,15 @@ private:
 public:
     Irrational();
     Irrational(string);
-    ~Irrational();
-    Number* Add(string);
-    string addSubtractPi();
-    string multiplyPi();
+    //~Irrational();
+    //Number* Add(string);
+    /*string addSubtractPi();
+    string multiplyPi();			Sorry, But what is this?
     string addSubtractE();
-    string multiplyE();
+    string multiplyE();*/
+	Number* add(Number*);
+	Number* subtract(Number*);
+	Number* multiply(Number*);
+	Number* divide(Number*);
 };
 #endif

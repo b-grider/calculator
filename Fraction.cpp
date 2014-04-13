@@ -57,6 +57,25 @@ int Fraction:: gcd(int a, int b) {
         return gcd(b, a % b);
     }
 }
+
+Number* Fraction::add(Number*) {
+	Number * a = new Fraction("3/4");
+	return a;
+}
+
+Number* Fraction::subtract(Number*) {
+	Number * a = new Fraction("3/4");
+	return a;
+}
+Number* Fraction::multiply(Number*) {
+	Number * a = new Fraction("3/4");
+	return a;
+}
+Number* Fraction::divide(Number*) {
+	Number * a = new Fraction("3/4");
+	return a;
+}
+
 /*
 
 Potential simplification idea???????

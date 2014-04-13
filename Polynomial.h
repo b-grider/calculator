@@ -3,13 +3,16 @@
 #include "Number.h"
 
 
-class Polynomial{
-    /*private:
-        Number* num1;
-        Number* num2;
+class Polynomial: public Number{
+    private:
+        string poly;
     public:
-        Polynomial(Number* num1, Number num2);
-        ~Polynomial();
-        string Polynomial(Number* num1,Number num2);*/
+        Polynomial(string);
+        //~Polynomial();
+        //string Polynomial(Number* num1,Number num2); //What was this for?
+		Number* add(Number*);
+		Number* subtract(Number*);
+		Number* multiply(Number*);
+		Number* divide(Number*);
 };
 #endif	
