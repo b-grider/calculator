@@ -26,11 +26,11 @@ int main() {
     //HelperFunctions* i = new HelperFunctions(t);
 //    Fraction* in = new Fraction("4390/3530");
     //vector<int> factors = in->primeFactorization();
-		//Fraction* f = new Fraction("3/7");
-		//Integer* i = new Integer("5");
+		Fraction* f = new Fraction("3/7");
+		Integer* i = new Integer("5");
 		vector<Number*> vec;
-		//vec.push_back(f);
-		//vec.push_back(i);
+		vec.push_back(f);
+		vec.push_back(i);
 		stack<Number*> stack;
 		
 }
