@@ -11,6 +11,8 @@ class Number {
     public:
         Number();
         Number(string);
+        string getNumber();
+        void setNumber(string);
         /*virtual void simplify() = 0;
         virtual string toString() = 0;
         virtual double getDouble() = 0;
