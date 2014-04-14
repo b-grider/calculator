@@ -11,24 +11,40 @@ class invalidIrrational: public exception {
   }
 } invalidIrr;
 int gcd(int a, int b) { 
-    if (b==0) return a; 
+    if (b==0) {
+        return a; 
+    }
     return gcd(b, a % b); 
 } 
 string simplifyLog(int base, int num) {
     //if the left log can be simplified to an int
           //if the fractions can be simplified
             int d, ans;
+            int gcf = 1;
             d = gcd(base, num);
           //if the number is greater than the base
           if(d != 1 && num > base) {
               int j = 0;
-              while(num != 1) {
+              while(num > 1) {
                   num /= d;
+                  gcf *= d;
                   j++;
               }
-              ostringstream ans;
-              ans << j;
-              return ans.str();
+              if(gcf == num)
+                  if(num == 1) {
+                      ostringstream ans;
+                      ans << j;
+                      return ans.str();
+                  }
+                  else {
+                      gcf /= d;
+                      num /= gcf;
+                      ostringstream b;
+                      ostringstream n;
+                      b << base;
+                      n << num;
+                      return "log_" + b.str() + ":" + n.str();
+                  }
           }
           else {
               ostringstream b;
@@ -37,6 +53,8 @@ string simplifyLog(int base, int num) {
               n << num;
               return "log_" + b.str() + ":" + n.str();
           }
+
+          
 }
 bool isNegative(string str) {
 	if (str[0] == '-') {
@@ -287,39 +305,30 @@ string add(string left, string right) {
           //if the log cannot be simplified it will return the log as it was. 
           simplifiedLeft = simplifyLog(tempLeft, tempLNum);
           simplifiedRight = simplifyLog(tempRight, tempRNum);
-          //if the left is an integer
           if(isInteger(simplifiedLeft)) {
               left = simplifiedLeft;
               istringstream(left) >> leftO;
           }
-          //if the right is an integer
           if(isInteger(simplifiedRight)) {
               right = simplifiedRight;
               istringstream(left) >> rightO;
           }
           num = tempLNum * tempRNum;
-          //if they are both integers then add the two integers
           if(isInteger(simplifiedLeft) && isInteger(simplifiedRight)) {
-              answer = leftO + rightO;
+              answer = leftO - rightO;
           }
-          //if neither are integers
           else if(!isInteger(simplifiedLeft) && !isInteger(simplifiedRight)) {
-              //checks if the bases are equal. if so it will multiply the number inside and then simplify.
               if(tempLeft == tempRight) {
                   string a = simplifyLog(tempLeft, num);
-                  answer = "log_" + leftBase + ":" + a ;
+                  answer = a;
               }
               else {
-                answer = left + " - " + right;
+                answer = left + " + " + right;
               }
-          }
-          else if(!isInteger(simplifiedLeft) || !isInteger(simplifiedRight)) {
-              answer = simplifiedLeft + " + " + simplifiedRight;
           }
           else {
               answer = left + " + " + right;
           }
-
         }
         else if(isFraction(left)) {
             string numerator, denominator;
@@ -400,7 +409,7 @@ string add(string left, string right) {
     return answer;
 }
 string subtract(string left, string right) {
-    string leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
+    string leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight, a;
     int leftC, rightC, final, leftO, rightO;
     //checks if the left and right operands are of the same type
     if((isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right))) {
@@ -567,13 +576,23 @@ string subtract(string left, string right) {
               right = simplifiedRight;
               istringstream(left) >> rightO;
           }
-          num = tempLNum / tempRNum;
+          if(tempLNum % tempRNum == 0) {
+              num = tempLNum / tempRNum;
+          }
+          else {
+              int p = gcd(tempLNum, tempRNum);
+              tempLNum /= p;
+              tempRNum /= p;
+              ostringstream c, d;
+              c << tempLNum;
+              d << tempRNum;
+              a = "(" + c.str() + "/" + d.str() + ")";
+          }
           if(isInteger(simplifiedLeft) && isInteger(simplifiedRight)) {
               answer = leftO - rightO;
           }
           else if(!isInteger(simplifiedLeft) && !isInteger(simplifiedRight)) {
               if(tempLeft == tempRight) {
-                  string a = simplifyLog(tempLeft, num);
                   answer = "log_" + leftBase + ":" + a ;
               }
               else {
@@ -904,6 +923,7 @@ string divide(string left, string right) {
                  tempDenominator << rightC;
                  finalC = tempNumerator.str() + "/" + tempDenominator.str();
              }
+             i = 0;
                  if (isPi(left) && isPi(right)) {
                      while (i < left.length()) {
                          if (left.substr(i, 1) == "^") {
@@ -1047,32 +1067,47 @@ string divide(string left, string right) {
              istringstream(rightNum) >> tempRNum;
              simplifiedLeft = simplifyLog(tempLeft, tempLNum);
              simplifiedRight = simplifyLog(tempRight, tempRNum);
-             if (isInteger(simplifiedLeft)) {
-                 left = simplifiedLeft;
-                 istringstream(left) >> leftO;
-             }
-             if (isInteger(simplifiedRight)) {
-                 right = simplifiedRight;
-                 istringstream(left) >> rightO;
-             }
-             num = tempLNum / tempRNum;
-             if (isInteger(simplifiedLeft) && isInteger(simplifiedRight)) {
-                 answer = leftO - rightO;
-             } else if (!isInteger(simplifiedLeft) && !isInteger(simplifiedRight)) {
-                 if (tempLeft == tempRight) {
-                     string a = simplifyLog(tempLeft, num);
-                     answer = "log_" + leftBase + ":" + a;
-                 }
-             } else {
-                 answer = left + " - " + right;
-             }
- 
- 
-         } else if (isFraction(left)) {
+              if(isInteger(simplifiedLeft)) {
+                  left = simplifiedLeft;
+                  istringstream(left) >> leftO;
+              }
+              if(isInteger(simplifiedRight)) {
+                  right = simplifiedRight;
+                  istringstream(left) >> rightO;
+              }
+              //if the two logs simmplify to integers and the integers are evenly divisible
+              if(isInteger(simplifiedLeft) && isInteger(simplifiedRight) && (leftO % rightO == 0)) {
+                  answer = leftO / rightO;
+              }
+              //if the two logs simplify to integers but the integers are not evenly divisible
+              else if(isInteger(simplifiedLeft) && isInteger(simplifiedRight) && !(leftO % rightO == 0)) {
+                  int a = gcd(leftO, rightO);
+                  ostringstream n;
+                  ostringstream d;
+                  leftO /= a;
+                  rightO /= a;
+                  n << leftO;
+                  d << rightO;
+                  answer = n.str() +"/" + d.str() ;
+              }
+              else if(!isInteger(simplifiedLeft) && !isInteger(simplifiedRight)) {
+                  //if the bases are equal
+                  if(tempLeft == tempRight) {
+                      answer = "log_" + rightNum + ":" + leftNum ;
+                  }
+                  else {
+                    answer = left + " / " + right;
+                  }
+              }
+              else {
+                  answer = left + " / " + right;
+              }
+         } 
+         else if (isFraction(left)) {
              string numerator, denominator;
              int i = 0;
              string topLeft, topRight, bottomLeft, bottomRight;
-             int leftNum, rightNum, leftDenom, rightDenom, finalNum;
+             int leftNum, rightNum, leftDenom, rightDenom, finalNum, finalDenom;
              while (left[i] != '/') {
                  topLeft += left[i];
                  i++;
@@ -1093,9 +1128,9 @@ string divide(string left, string right) {
                  i++;
              }
              istringstream(topLeft) >> leftNum;
-             istringstream(topRight) >> rightNum;
+             istringstream(topRight) >> rightDenom;
              istringstream(bottomLeft) >> leftDenom;
-             istringstream(bottomRight) >> rightDenom;
+             istringstream(bottomRight) >> rightNum;
              //if the fractions can be simplified
              int d, e;
              d = gcd(leftNum, leftDenom);
@@ -1104,25 +1139,19 @@ string divide(string left, string right) {
              e = gcd(rightNum, rightDenom);
              rightNum /= e;
              rightDenom /= e;
-             if (leftDenom == rightDenom) {
-                 finalNum = leftNum - rightNum;
-                 ostringstream temp;
-                 temp << finalNum;
-                 numerator = temp.str();
-                 denominator = bottomLeft;
-             } else {
-                 leftNum *= rightDenom;
-                 rightNum *= leftDenom;
-                 leftDenom *= rightDenom;
-                 finalNum = leftNum - rightNum;
-                 ostringstream numer;
-                 numer << finalNum;
-                 numerator = numer.str();
-                 ostringstream denom;
-                 denom << leftDenom;
-                 denominator = denom.str();
+             finalNum = leftNum * rightNum;
+             finalDenom = leftDenom * rightDenom;
+             int g = gcd(finalNum, finalDenom);
+             finalNum /= g;
+             finalDenom /= g;
+             ostringstream numer;
+             numer << finalNum;
+             numerator = numer.str();
+             ostringstream denom;
+             denom << finalDenom;
+             denominator = denom.str();
  
-             }
+             //}
              answer = numerator + "/" + denominator;
          }
          if (isPolynomial(left)) {
@@ -1132,14 +1161,26 @@ string divide(string left, string right) {
              int leftO, rightO, ans;
              istringstream(left) >> leftO;
              istringstream(right) >> rightO;
-             ans = leftO - rightO;
+             if(leftO % rightO == 0) {
+             ans = leftO / rightO;
              ostringstream t;
              t << ans;
              answer = t.str();
+             }
+             else {
+                 int d = gcd(leftO, rightO);
+                 leftO /= d;
+                 rightO /= d;
+                 ostringstream numera;
+                 ostringstream denomi;
+                 numera << leftO;
+                 denomi << rightO;
+                 answer = numera.str() + "/" + denomi.str();
+             }      
          }
- 
-     } else {
-         answer = left + " - " + right;
+     }
+     else {
+         answer = left + " / " + right;
      }
      return answer;
  }
