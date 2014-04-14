@@ -23,6 +23,13 @@ string simplifyLog(int base, int num) {
               ans << j;
               return ans.str();
           }
+          else {
+              ostringstream b;
+              ostringstream n;
+              b << base;
+              n << num;
+              return "log_" + b.str() + ":" + n.str();
+          }
 }
 bool isNegative(string str) {
 	if (str[0] == '-') {
@@ -104,25 +111,35 @@ bool isE(string str) {
     }
 }
 string add(string left, string right) {
-    string leftCoefficient, rightCoefficient,leftExponent,rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
-    int leftC, rightC, final, leftIndex, rightIndex, originalLength;
+    string leftCoefficient, rightCoefficient, finalC, answer, simplifiedLeft, simplifiedRight;
+    int leftC, rightC, final, leftIndex, rightIndex, originalLength, leftO, rightO;
     //checks if the left and right operands are of the same type
     if((isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right))) {
-       
         //Dealing with Irrational Numbers
         if(isIrrational(left)) {
             int i = 0;
             leftCoefficient = "";
-            leftExponent = "";
             int temp;
-            
+            originalLength = left.length();
             while(i < left.length()) {
                 if(istringstream(left.substr(i, 1)) >> temp) {
                     leftCoefficient += left[i];
-                    
+
                 }
-                else
-                    break;
+                //if there is a multiply sign preceding pi or e
+               /* if(left.find('*') < left.length()) {
+                    leftIndex = left.find('*');
+                    int j = 0;
+                    while(j < leftIndex) {
+                        left += left[j];
+                        j++;
+                    }
+                    while(j > leftIndex && j < originalLength) {
+                        left += left[j];
+                        j++;
+                    }
+
+                }*/
                 i++;
             }
             if(leftCoefficient == ""){
@@ -130,76 +147,38 @@ string add(string left, string right) {
             }
             i = 0;
             rightCoefficient = "";
-            rightExponent = "";
             while(i < right.length()) {
                  if(istringstream(right.substr(i, 1)) >> temp) {
                     rightCoefficient += right[i];
-                    
+
                 }
-                 else
-                     break;
-                 i++;
+                i++;
              }
              if(rightCoefficient == ""){
                  rightCoefficient = "1";
              }
             istringstream(leftCoefficient) >> leftC;
             istringstream(rightCoefficient) >> rightC;
+            //adds the coefficients
             final = leftC + rightC;
+            //converts coefficient to string
             ostringstream temporary;
             temporary << final;
             finalC = temporary.str();
-           
+            //if both operands contain pi
             if(isPi(left) && isPi(right)) {
-                while(i < left.length()) {
-                        if(left.substr(i, 1) == "^") {
-                                leftExponent += left[i+1];
-                        }
-                        i++;
-                }
-                i =0;
-                while(i < right.length()) {
-                        if(right.substr(i, 1) == "^") {
-                                rightExponent += right[i+1];
-                        }
-                        i++;
-                }
-                if((leftExponent == rightExponent) && !(leftExponent == "" && rightExponent == "")) {
-                        answer = finalC + "pi" + "^" + leftExponent;
-                }
-                else if((leftExponent == rightExponent) && (leftExponent == "" && rightExponent == "")){
-                        answer = finalC + "pi";
-                }
-                else
-                    answer = left + " + " + right;
+                answer = finalC + "pi";
             }
+            //if both operands contain e
             else if(isE(left) && isE(right)) {
-                while(i < left.length()) {
-                        if(left.substr(i, 1) == "^") {
-                                leftExponent += left[i+1];
-                        }
-                        i++;
-                }
-                i =0;
-                while(i < right.length()) {
-                        if(right.substr(i, 1) == "^") {
-                                rightExponent += right[i+1];
-                        }
-                        i++;
-                }
-                if((leftExponent == rightExponent) && !(leftExponent == "" && rightExponent == "")) {
-                        answer = finalC + "e" + "^" + leftExponent;
-                }
-                else if((leftExponent == rightExponent) && (leftExponent == "" && rightExponent == "")){
-                        answer = finalC + "e";
-                }
-                else
-                    answer = left + " + " + right;
+                answer = finalC + "e";
             }
+            //if the operands cannot be added and simplified, concatenate them
             else if(isPi(left) && isE(right) || isE(left) && isPi(right)) {
                 answer = left + " + " + right;
             }
-        }
+            }
+        //Dealing with logs
         else if(isLog(left)) {
           string leftBase, rightBase, leftNum, rightNum, final;
           int i = 4;
@@ -248,23 +227,42 @@ string add(string left, string right) {
           istringstream(rightBase) >> tempRight;
           istringstream(leftNum) >> tempLNum;
           istringstream(rightNum) >> tempRNum;
+          //simplifies the logs to numbers if possible. 
+          //if the log cannot be simplified it will return the log as it was. 
           simplifiedLeft = simplifyLog(tempLeft, tempLNum);
           simplifiedRight = simplifyLog(tempRight, tempRNum);
+          //if the left is an integer
           if(isInteger(simplifiedLeft)) {
               left = simplifiedLeft;
+              istringstream(left) >> leftO;
           }
+          //if the right is an integer
           if(isInteger(simplifiedRight)) {
               right = simplifiedRight;
+              istringstream(left) >> rightO;
           }
           num = tempLNum * tempRNum;
-          if(tempLeft == tempRight) {
-              string a = simplifyLog(tempLeft, num);
-              answer = "log_" + leftBase + ":" + a ;
+          //if they are both integers then add the two integers
+          if(isInteger(simplifiedLeft) && isInteger(simplifiedRight)) {
+              answer = leftO + rightO;
+          }
+          //if neither are integers
+          else if(!isInteger(simplifiedLeft) && !isInteger(simplifiedRight)) {
+              //checks if the bases are equal. if so it will multiply the number inside and then simplify.
+              if(tempLeft == tempRight) {
+                  string a = simplifyLog(tempLeft, num);
+                  answer = "log_" + leftBase + ":" + a ;
+              }
+              else {
+                answer = left + " - " + right;
+              }
+          }
+          else if(!isInteger(simplifiedLeft) || !isInteger(simplifiedRight)) {
+              answer = simplifiedLeft + " + " + simplifiedRight;
           }
           else {
               answer = left + " + " + right;
           }
-
 
         }
         else if(isFraction(left)) {
@@ -346,7 +344,7 @@ string add(string left, string right) {
     return answer;
 }
 string subtract(string left, string right) {
-    string leftCoefficient, rightCoefficient,leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
+    string leftCoefficient, rightCoefficient, finalC, answer, simplifiedLeft, simplifiedRight;
     int leftC, rightC, final, leftO, rightO;
     //checks if the left and right operands are of the same type
     if((isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right))) {
@@ -354,16 +352,12 @@ string subtract(string left, string right) {
         if(isIrrational(left)) {
             int i = 0;
             leftCoefficient = "";
-            leftExponent = "";
             int temp;
-            
             while(i < left.length()) {
                 if(istringstream(left.substr(i, 1)) >> temp) {
                     leftCoefficient += left[i];
-                    
+
                 }
-                else
-                    break;
                 i++;
             }
             if(leftCoefficient == ""){
@@ -371,15 +365,12 @@ string subtract(string left, string right) {
             }
             i = 0;
             rightCoefficient = "";
-            rightExponent = "";
             while(i < right.length()) {
                  if(istringstream(right.substr(i, 1)) >> temp) {
                     rightCoefficient += right[i];
-                    
+
                 }
-                 else
-                     break;
-                 i++;
+                i++;
              }
              if(rightCoefficient == ""){
                  rightCoefficient = "1";
@@ -390,57 +381,16 @@ string subtract(string left, string right) {
             ostringstream temporary;
             temporary << final;
             finalC = temporary.str();
-           
             if(isPi(left) && isPi(right)) {
-                while(i < left.length()) {
-                        if(left.substr(i, 1) == "^") {
-                                leftExponent += left[i+1];
-                        }
-                        i++;
-                }
-                i =0;
-                while(i < right.length()) {
-                        if(right.substr(i, 1) == "^") {
-                                rightExponent += right[i+1];
-                        }
-                        i++;
-                }
-                if((leftExponent == rightExponent) && !(leftExponent == "" && rightExponent == "")) {
-                        answer = finalC + "pi" + "^" + leftExponent;
-                }
-                else if((leftExponent == rightExponent) && (leftExponent == "" && rightExponent == "")){
-                        answer = finalC + "pi";
-                }
-                else
-                    answer = left + " - " + right;
+                answer = finalC + "pi";
             }
             else if(isE(left) && isE(right)) {
-                while(i < left.length()) {
-                        if(left.substr(i, 1) == "^") {
-                                leftExponent += left[i+1];
-                        }
-                        i++;
-                }
-                i =0;
-                while(i < right.length()) {
-                        if(right.substr(i, 1) == "^") {
-                                rightExponent += right[i+1];
-                        }
-                        i++;
-                }
-                if((leftExponent == rightExponent) && !(leftExponent == "" && rightExponent == "")) {
-                        answer = finalC + "e" + "^" + leftExponent;
-                }
-                else if((leftExponent == rightExponent) && (leftExponent == "" && rightExponent == "")){
-                        answer = finalC + "e";
-                }
-                else
-                    answer = left + " - " + right;
+                answer = finalC + "e";
             }
             else if(isPi(left) && isE(right) || isE(left) && isPi(right)) {
                 answer = left + " - " + right;
             }
-        }
+            }
         else if(isLog(left)) {
           string leftBase, rightBase, leftNum, rightNum, final;
           int i = 4;
@@ -507,6 +457,9 @@ string subtract(string left, string right) {
               if(tempLeft == tempRight) {
                   string a = simplifyLog(tempLeft, num);
                   answer = "log_" + leftBase + ":" + a ;
+              }
+              else {
+                answer = left + " - " + right;
               }
           }
           else {
@@ -592,220 +545,145 @@ string subtract(string left, string right) {
     }
     return answer;
 }
-
-string divide(string left, string right) {
-    string leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC,finalE, answer, simplifiedLeft, simplifiedRight;
-    int leftC, rightC,leftE, rightE, final, leftO, rightO;
+string multiply(string left, string right) {
+    string leftCoefficient, rightCoefficient, finalC, answer;
+    int leftC, rightC, final;
     //checks if the left and right operands are of the same type
-    if ((isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right))) {
+    if((isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right))) {
         //Dealing with Irrational Numbers
-        if (isIrrational(left)) {
+		//PARSE COFFICIENTS OF IRRATIONALS NOW
+        if(isIrrational(left)) {
             int i = 0;
             leftCoefficient = "";
-            leftExponent = "";
             int temp;
+			if(isNegative(left)) {							//If left is negative
+				leftCoefficient = "-";						//make the leftcoeff start with a "-"
+				i++;										//increment i
+			}
+            while(i < left.length()) {
+                if(istringstream(left.substr(i, 1)) >> temp) {		//if this character of left is an int
+                    leftCoefficient += left[i];						//concatenate to leftcoefficient string (handles multi digit ints)
 
-            while (i < left.length()) {
-                if (istringstream(left.substr(i, 1)) >> temp) {
-                    leftCoefficient += left[i];
-
-                } else
-                    break;
+                }
                 i++;
             }
-            if (leftCoefficient == "") {
-                leftCoefficient = "1";
+            if(leftCoefficient == ""){								//if left coeff is 1 (i.e. "pi")
+                 leftCoefficient = "1";								//leftcoefficient is 1;
             }
             i = 0;
             rightCoefficient = "";
-            rightExponent = "";
-            while (i < right.length()) {
-                if (istringstream(right.substr(i, 1)) >> temp) {
-                    rightCoefficient += right[i];
+			if(isNegative(right)) {							//If left is negative
+				rightCoefficient = "-";						//make the leftcoeff start with a "-"
+				i++;										//increment i
+			}
+            while(i < right.length()) {
+                 if(istringstream(right.substr(i, 1)) >> temp) {			//if this character of right is an int
+                    rightCoefficient += right[i];							//concatenate to rightcoefficient string (handles multidigit numbers)
 
-                } else
-                    break;
+                }
                 i++;
-            }
-            if (rightCoefficient == "") {
-                rightCoefficient = "1";
-            }
-
-
+             }
+             if(rightCoefficient == ""){							//if right coeff is 1 (i.e. "pi")																						//rightCoefficient is 1;
+                 rightCoefficient = "1";							//make rightCoefficient 1
+             }
             istringstream(leftCoefficient) >> leftC;
-            istringstream(rightCoefficient) >> rightC;
-            if ((leftC % rightC) == 0) {
-                final = leftC / rightC;
-                ostringstream temporary;
-                temporary << final;
-                finalC = temporary.str();
-                if (isPi(left) && isPi(right)) {
-                    while (i < left.length()) {
-                        if (left.substr(i, 1) == "^") {
-                            leftExponent += left[i + 1];
-                        }
-                        i++;
-                    }
-                    if(leftExponent == "") {
-                        leftExponent == "0";
-                    }
-                    i = 0;
-                    while (i < right.length()) {
-                        if (right.substr(i, 1) == "^") {
-                            rightExponent += right[i + 1];
-                        }
-                        i++;
-                    }
-                    if(rightExponent == "") {
-                        rightExponent == "0";
-                    }
-                    istringstream(leftExponent) >> leftE;
-                    istringstream(rightExponent) >> rightE;
-                    final = leftE - rightE;
-                    ostringstream temporary;
-                    temporary << final;
-                    finalE = temporary.str();
-                    if (final == 0) {
-                        answer = finalC;
-                    } else
-                        answer = finalC + "pi" + "^" + finalE;
-                } else if (isE(left) && isE(right)) {
-                    while (i < left.length()) {
-                        if (left.substr(i, 1) == "^") {
-                            leftExponent += left[i + 1];
-                        }
-                        i++;
-                    }
-                    if(leftExponent == "") {
-                        leftExponent == "0";
-                    }
-                    i = 0;
-                    while (i < right.length()) {
-                        if (right.substr(i, 1) == "^") {
-                            rightExponent += right[i + 1];
-                        }
-                        i++;
-                    }
-                    if(rightExponent == "") {
-                        rightExponent == "0";
-                    }
-                    istringstream(leftExponent) >> leftE;
-                    istringstream(rightExponent) >> rightE;
-                    final = leftE - rightE;
-                    ostringstream temporary;
-                    temporary << final;
-                    finalE = temporary.str();
-                    if (final == 0) {
-                        answer = finalC;
-                    } else
-                        answer = finalC + "e" + "^" + finalE;
-                } else if (isPi(left) && isE(right)) {
-                    if(leftE == 0 && rightE == 0){
-                        answer = finalC + "pi" + "/" + "e";
-                    }
-                    else
-                        answer = finalC + "pi" + "^" + leftExponent + "/" + "e" + "^" + rightExponent;
-                }
-                else if(isE(left) && isPi(right)) {
-                    if(leftE == 0 && rightE == 0)
-                        answer = finalC + "e" + "/" + "i";
-                    else
-                        answer = finalC + "e" + "^" + leftExponent + "/" + "pi" + "^" + rightExponent;
-                }
+            istringstream(rightCoefficient) >> rightC;				//write the coefficients to ints; we can handle them and multiply now
+            final = leftC * rightC;										//final gets the product of leftC and rightC
+            ostringstream temporary;
+            temporary << final;											//writes product of coefficients to a stringstream
+            finalC = temporary.str();									//finalC gets the string of temporary stringstream
+            if(isPi(left) && isPi(right)) {
+                answer = finalC + "pi";
             }
+            else if(isE(left) && isE(right)) {
+                answer = finalC + "e";
+            }
+            else if(isPi(left) && isE(right) || isE(left) && isPi(right)) {
+                answer = left + " + " + right;
+            }
+            }
+       else if(isLog(left)) {
+          string leftBase, rightBase, leftNum, rightNum, final;
+          int i = 4;
+          //Specified base for the log
+          if(left[3] == '_' ) {
+              while(left[i] != ':') {
+                  leftBase += left[i];
+                  i++;
+              }
+              i++;
+              while(i <= left.length()-1) {
+                  leftNum += left[i];
+                  i++;
+              }
+          }
+          //This is log base 10
+          else if(left[3] == ':') {
+              leftBase = "10";
+              while(i <= left.length()-1) {
+                  leftNum += left[i];
+                  i++;
+              }
+          }
+          i = 4;
+          if(right[3] == '_' ) {
+              while(right[i] != ':') {
+                  rightBase += right[i];
+                  i++;
+              }
+              i++;
+              while(i <= right.length()-1) {
+                  rightNum += right[i];
+                  i++;
+              }
+          }
+          //This is log base 10
+          else if(right[3] == ':') {
+              rightBase = "10";
+              while(i <= right.length()-1) {
+                  rightNum += right[i];
+                  i++;
+              }
+          }
+          int num, tempLeft, tempRight, tempLNum, tempRNum;
+          istringstream(leftBase) >> tempLeft;
+          istringstream(rightBase) >> tempRight;
+          istringstream(leftNum) >> tempLNum;
+          istringstream(rightNum) >> tempRNum;
+          num = tempLNum * tempRNum;
+          ostringstream n;
+          n << num;
+          if(tempLeft == tempRight) {
+
+              answer = "log_" + leftBase + ":" + n.str() ;
+          }
+          else {
+              answer = left + " + " + right;
+          }
 
 
-
-        } else if (isLog(left)) {
-            string leftBase, rightBase, leftNum, rightNum, final;
-            int i = 4;
-            //Specified base for the log
-            if (left[3] == '_') {
-                while (left[i] != ':') {
-                    leftBase += left[i];
-                    i++;
-                }
-                i++;
-                while (i <= left.length() - 1) {
-                    leftNum += left[i];
-                    i++;
-                }
-            }//This is log base 10
-            else if (left[3] == ':') {
-                leftBase = "10";
-                while (i <= left.length() - 1) {
-                    leftNum += left[i];
-                    i++;
-                }
-            }
-            i = 4;
-            if (right[3] == '_') {
-                while (right[i] != ':') {
-                    rightBase += right[i];
-                    i++;
-                }
-                i++;
-                while (i <= right.length() - 1) {
-                    rightNum += right[i];
-                    i++;
-                }
-            }//This is log base 10
-            else if (right[3] == ':') {
-                rightBase = "10";
-                while (i <= right.length() - 1) {
-                    rightNum += right[i];
-                    i++;
-                }
-            }
-            int num, tempLeft, tempRight, tempLNum, tempRNum;
-            istringstream(leftBase) >> tempLeft;
-            istringstream(rightBase) >> tempRight;
-            istringstream(leftNum) >> tempLNum;
-            istringstream(rightNum) >> tempRNum;
-            simplifiedLeft = simplifyLog(tempLeft, tempLNum);
-            simplifiedRight = simplifyLog(tempRight, tempRNum);
-            if (isInteger(simplifiedLeft)) {
-                left = simplifiedLeft;
-                istringstream(left) >> leftO;
-            }
-            if (isInteger(simplifiedRight)) {
-                right = simplifiedRight;
-                istringstream(left) >> rightO;
-            }
-            num = tempLNum / tempRNum;
-            if (isInteger(simplifiedLeft) && isInteger(simplifiedRight)) {
-                answer = leftO - rightO;
-            } else if (!isInteger(simplifiedLeft) && !isInteger(simplifiedRight)) {
-                if (tempLeft == tempRight) {
-                    string a = simplifyLog(tempLeft, num);
-                    answer = "log_" + leftBase + ":" + a;
-                }
-            } else {
-                answer = left + " - " + right;
-            }
-
-
-        } else if (isFraction(left)) {
+        }
+        else if(isFraction(left)) {
             string numerator, denominator;
-            int i = 0;
+            int i =0;
             string topLeft, topRight, bottomLeft, bottomRight;
             int leftNum, rightNum, leftDenom, rightDenom, finalNum;
-            while (left[i] != '/') {
+            while(left[i] != '/'){
                 topLeft += left[i];
                 i++;
             }
             i++;
-            while (i < left.length()) {
+            while(i < left.length()) {
                 bottomLeft += left[i];
                 i++;
             }
             i = 0;
-            while (right[i] != '/') {
+            while(right[i] != '/'){
                 topRight += right[i];
                 i++;
             }
             i++;
-            while (i < right.length()) {
+            while(i < right.length()) {
                 bottomRight += right[i];
                 i++;
             }
@@ -813,25 +691,18 @@ string divide(string left, string right) {
             istringstream(topRight) >> rightNum;
             istringstream(bottomLeft) >> leftDenom;
             istringstream(bottomRight) >> rightDenom;
-            //if the fractions can be simplified
-            int d, e;
-            d = gcd(leftNum, leftDenom);
-            leftNum /= d;
-            leftDenom /= d;
-            e = gcd(rightNum, rightDenom);
-            rightNum /= e;
-            rightDenom /= e;
-            if (leftDenom == rightDenom) {
-                finalNum = leftNum - rightNum;
+            if(leftDenom == rightDenom) {
+                finalNum = leftNum + rightNum;
                 ostringstream temp;
                 temp << finalNum;
                 numerator = temp.str();
                 denominator = bottomLeft;
-            } else {
+            }
+            else {
                 leftNum *= rightDenom;
                 rightNum *= leftDenom;
                 leftDenom *= rightDenom;
-                finalNum = leftNum - rightNum;
+                finalNum = leftNum + rightNum;
                 ostringstream numer;
                 numer << finalNum;
                 numerator = numer.str();
@@ -842,21 +713,29 @@ string divide(string left, string right) {
             }
             answer = numerator + "/" + denominator;
         }
-        if (isPolynomial(left)) {
+        if(isPolynomial(left)) {
 
         }
-        if (isInteger(left)) {
+        if(isInteger(left)) {
             int leftO, rightO, ans;
             istringstream(left) >> leftO;
             istringstream(right) >> rightO;
-            ans = leftO - rightO;
+            ans = leftO + rightO;
             ostringstream t;
             t << ans;
             answer = t.str();
         }
 
-    } else {
-        answer = left + " - " + right;
+    }
+
+    else {
+      answer = left + " + " + right;
     }
     return answer;
+}
+int main() {
+    string one = "log_2:16";
+    string two = "log_3:27";
+    cout << add(one, two) << endl;
+    cout << subtract(one, two) << endl;
 }
