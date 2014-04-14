@@ -14,13 +14,13 @@ Number* HelperFunctions::help() {
         //Polynomial* i = new Polynomial();
     }
     else if(isIrrational(input)) {
-        Irrational* n = new Irrational(input);
+        //Irrational* n = new Irrational(input);
     }
     else if(isInteger(input)) {
-        Integer* n = new Integer(input);
+        //Integer* n = new Integer(input);
     }
     else if(isFraction(input)) {
-        Fraction* n = new Fraction(input);
+        //Fraction* n = new Fraction(input);
     }
     else if(isLog(input)) {
         string b, num;

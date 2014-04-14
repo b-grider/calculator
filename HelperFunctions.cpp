@@ -5,7 +5,7 @@ class invalidNumber: public exception {
     return "You did not input a recognizable number type";
   }
 } notNum;
-HelperFunctions::HelperFunctions(string a) {
+/*HelperFunctions::HelperFunctions(string a) {
     input = a;
 }
 Number* HelperFunctions::help() {
@@ -116,4 +116,4 @@ bool isLog(string str) {
     }
 	return false;
 }
-
+*/

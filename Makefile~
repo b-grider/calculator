@@ -1,7 +1,7 @@
 all: calc
 
-calc: Driver.o Expression.o Number.o Fraction.o Help.o HelperFunctions.o Integer.o Irrational.o Log.o NthRoot.o Operations.o Polynomial.o Review.o
-	g++ Driver.o Expression.o Number.o Fraction.o Help.o HelperFunctions.o Integer.o Irrational.o Log.o NthRoot.o Operations.o Polynomial.o Review.o -o calc
+calc: Driver.o Expression.o Number.o Fraction.o Help.o HelperFunctions.o Integer.o Irrational.o Log.o NthRoot.o Polynomial.o Review.o
+	g++ Driver.o Expression.o Number.o Fraction.o Help.o HelperFunctions.o Integer.o Irrational.o Log.o NthRoot.o Polynomial.o Review.o -o calc
 
 Driver.o: Driver.cpp
 	g++ -c Driver.cpp
