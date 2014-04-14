@@ -8,11 +8,11 @@
 
 using namespace std;
 
-int main() {
+/*int main() {
     string str = "log_3:9 + 32";
     Expression* e = new Expression(str);
     cout << e->shunting(str) << endl;
-}
+}*/
 /*double Driver::fractionToDecimal(string input) {
 
 }

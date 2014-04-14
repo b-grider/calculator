@@ -41,10 +41,10 @@ int Expression::precedence(string s) {
         }
     return prec;
 }
-Number* Expression::stringToNumber(string a) {
+/*Number* Expression::stringToNumber(string a) {
     HelperFunctions* n = new HelperFunctions(a);
     return n->help();
-}
+}*/
 string Expression::numberToString(Number* n) {
     ostringstream temp;
     temp << n;
@@ -64,7 +64,7 @@ string Expression::shunting(string userinput) {
 		if (userinput[i] != ' ') {
 			// Check if it is a numeric value, converts the character at element 'i'
 			// into a double, if true, then it is a numeric value
-			if (istringstream(oneChar) >> num) {
+			if (istringstream(oneChar) >> num || userinput.find("log") < userinput.length() || userinput.find("pi")< userinput.length() || userinput.find('e')< userinput.length()) {
 				while (i < userinput.length() && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
 					i++;
 					oneChar += userinput[i];
@@ -171,7 +171,7 @@ string Expression::shunting(string userinput) {
 
 	return rpn;
 }
-string Expression::evaluate(string rpn) {
+/*string Expression::evaluate(string rpn) {
     double num;
     //While there are input tokens left
     for (int i = 0; i < rpn.length(); i++) {
@@ -261,7 +261,7 @@ string Expression::evaluate(string rpn) {
     return final;
 }
 
-/*Number* Expression::simplification(Number* numerator, Number* denominator) {
+Number* Expression::simplification(Number* numerator, Number* denominator) {
 
 }
 string Expression::exponentiate(Number* base, Number* power) {
