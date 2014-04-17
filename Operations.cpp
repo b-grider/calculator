@@ -477,6 +477,9 @@ string add(string left, string right) {
 			//Specified base for the log
 			if (left[3] == '_') {
 				while (left[i] != ':') {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftBase += left[i];
 					i++;
 				}
@@ -490,6 +493,9 @@ string add(string left, string right) {
 			else if (left[3] == ':') {
 				leftBase = "10";
 				while (i <= left.length() - 1) {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftNum += left[i];
 					i++;
 				}
@@ -497,11 +503,17 @@ string add(string left, string right) {
 			i = 4;
 			if (right[3] == '_') {
 				while (right[i] != ':') {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightBase += right[i];
 					i++;
 				}
 				i++;
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}
@@ -510,6 +522,9 @@ string add(string left, string right) {
 			else if (right[3] == ':') {
 				rightBase = "10";
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}
@@ -939,6 +954,9 @@ string subtract(string left, string right) {
 			//Specified base for the log
 			if (left[3] == '_') {
 				while (left[i] != ':') {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftBase += left[i];
 					i++;
 				}
@@ -952,6 +970,9 @@ string subtract(string left, string right) {
 			else if (left[3] == ':') {
 				leftBase = "10";
 				while (i <= left.length() - 1) {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftNum += left[i];
 					i++;
 				}
@@ -959,11 +980,17 @@ string subtract(string left, string right) {
 			i = 4;
 			if (right[3] == '_') {
 				while (right[i] != ':') {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightBase += right[i];
 					i++;
 				}
 				i++;
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}
@@ -972,6 +999,9 @@ string subtract(string left, string right) {
 			else if (right[3] == ':') {
 				rightBase = "10";
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}
@@ -1159,7 +1189,7 @@ string multiply(string left, string right) {
 		rightExponent = "";
 
 		//PARSE EXPONENTS
-
+                //dealing with irrationals
 		if (isPi(left) && isPi(right)) {
 			int i = 0;
 			while (i < left.length()) {
@@ -1320,12 +1350,18 @@ string multiply(string left, string right) {
 			int i = 4;
 			//Specified base for the log
 			if (left[3] == '_') {	//about to parse the base
-				while (left[i] != ':') {	//while there are still digits to parse
+				while (left[i] != ':') {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }//while there are still digits to parse
 					leftBase += left[i];	//concatenate base string
 					i++;	//increment i
 				}
 				i++;	//SKIP OVER char ':'
-				while (i <= left.length() - 1) {	//Parse the remaining digits
+				while (i <= left.length() - 1) {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }//Parse the remaining digits
 					leftNum += left[i];
 					i++;
 				}
@@ -1334,6 +1370,9 @@ string multiply(string left, string right) {
 			else if (left[3] == ':') {
 				leftBase = "10";	//If no base specified, its base 10
 				while (i <= left.length() - 1) {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftNum += left[i];	//parse num
 					i++;
 				}
@@ -1341,11 +1380,17 @@ string multiply(string left, string right) {
 			i = 4;
 			if (right[3] == '_') {
 				while (right[i] != ':') {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightBase += right[i];
 					i++;
 				}
 				i++;
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}
@@ -1354,6 +1399,9 @@ string multiply(string left, string right) {
 			else if (right[3] == ':') {
 				rightBase = "10";
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}
@@ -1657,11 +1705,17 @@ string divide(string left, string right) {
 			//Specified base for the log
 			if (left[3] == '_') {
 				while (left[i] != ':') {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftBase += left[i];
 					i++;
 				}
 				i++;
 				while (i <= left.length() - 1) {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftNum += left[i];
 					i++;
 				}
@@ -1669,6 +1723,9 @@ string divide(string left, string right) {
 			else if (left[3] == ':') {
 				leftBase = "10";
 				while (i <= left.length() - 1) {
+                                    if(left[i] == '(' || left[i] == ')') {
+                                      i++;
+                                     }
 					leftNum += left[i];
 					i++;
 				}
@@ -1676,11 +1733,17 @@ string divide(string left, string right) {
 			i = 4;
 			if (right[3] == '_') {
 				while (right[i] != ':') {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightBase += right[i];
 					i++;
 				}
 				i++;
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}
@@ -1688,6 +1751,9 @@ string divide(string left, string right) {
 			else if (right[3] == ':') {
 				rightBase = "10";
 				while (i <= right.length() - 1) {
+                                    if(right[i] == '(' || right[i] == ')') {
+                                      i++;
+                                     }
 					rightNum += right[i];
 					i++;
 				}

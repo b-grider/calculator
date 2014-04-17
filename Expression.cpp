@@ -60,10 +60,20 @@ string Expression::shunting() {
 			// Check if it is a numeric value, converts the character at element 'i'
 			// into a double, if true, then it is a numeric value
 			if (istringstream(oneChar) >> num || userinput[i] == 'l' || userinput[i] == 'L' || userinput[i] == 'p' || userinput[i] == 'P' || userinput[i] == 'e' || userinput[i] == 'E') {
-				while (i < userinput.length() && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
-					i++;
-					oneChar += userinput[i];
-				}
+                            if(oneChar == "l") {
+                                string mystring = "";
+                                while(!isOperator(mystring)) {
+                                    oneChar += oneChar[i];
+                                    mystring = string(1, oneChar[i]);
+                                    i++;
+                                }
+                            }
+                            else {
+                                while (i < userinput.length() && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
+                                            i++;
+                                            oneChar += userinput[i];
+                                    }
+                            }
 				// If number, push onto queue, remember, we are passing it back as a string!
                                 //HelperFunctions* n = new HelperFunctions(oneChar);
                                 mainQueue.push(oneChar);
@@ -191,11 +201,17 @@ string Expression::evaluate() {
                       //Specified base for the log
                       if(oneChar[3] == '_' ) {
                           while(oneChar[i] != ':') {
+                              if(oneChar[i] == '(' || oneChar[i] == ')') {
+                                  i++;
+                              }
                               leftBase += oneChar[i];
                               i++;
                           }
                           i++;
                           while(i <= oneChar.length()-1) {
+                              if(oneChar[i] == '(' || oneChar[i] == ')') {
+                                  i++;
+                              }
                               leftNum += oneChar[i];
                               i++;
                           }
@@ -204,6 +220,9 @@ string Expression::evaluate() {
                       else if(oneChar[3] == ':') {
                           leftBase = "10";
                           while(i <= oneChar.length()-1) {
+                              if(oneChar[i] == '(' || oneChar[i] == ')') {
+                                  i++;
+                              }
                               leftNum += oneChar[i];
                               i++;
                           }
