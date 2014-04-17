@@ -7,7 +7,6 @@
 #include <vector>
 
 using namespace std;
-
 vector<string> expressions;
 vector<string> answers;
 
@@ -59,12 +58,12 @@ int main() {
 				}
 				else {
 					Expression * a = new Expression(expression);
-					//cout << a->shunting() << endl;
+					cout << a->shunting() << endl;
                                         //cout << a-> evaluate() << endl;
-                                        cout << a->shunting() << endl;
+                                        //cout << a->shunting() << endl;
                                         cout << "Answer:" << a->evaluate() << endl;
-                                        //expressions.push_back(expression);
-					//answers.push_back(a->evaluate());
+                                        expressions.push_back(expression);
+					answers.push_back(a->evaluate());
 				}
 			}
 		}

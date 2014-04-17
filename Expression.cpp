@@ -61,11 +61,15 @@ string Expression::shunting() {
 			// into a double, if true, then it is a numeric value
 			if (istringstream(oneChar) >> num || userinput[i] == 'l' || userinput[i] == 'L' || userinput[i] == 'p' || userinput[i] == 'P' || userinput[i] == 'e' || userinput[i] == 'E') {
                             if(oneChar == "l") {
+                                i++;
                                 string mystring = "";
-                                while(!isOperator(mystring)) {
-                                    oneChar += oneChar[i];
-                                    mystring = string(1, oneChar[i]);
+                                while(!isOperator(mystring) && i < userinput.length()) {
+                                    oneChar += userinput[i];
+                                    mystring = string(1, userinput[i+1]);
                                     i++;
+                                }
+                                if(isOperator(mystring)) {
+                                    i--;
                                 }
                             }
                             else {
@@ -332,25 +336,35 @@ string Expression::evaluate() {
     string final = mainStack.top();
     return final;
 }
-/*string Expression::reOrder(string final) {
-    vector<string> pile;
+string Expression::reOrder(string final) {
+    queue<string> pile;
     double num;
     int importantCount = 0;
 	// Read all characters one at a time
     for(int i = 0; i < final.length(); i++) {
        string temp;
+       //while you have not encountered a plus or minus sign
+       //get the string of a number
         while(final[i] != '+' && ((final[i] == ':' && final[i+1] == '-') || final[i] != '-')) {
                 temp += final[i];
                 i++;
         }
+       //if the number is an integer or fraction push it onto the stack
         if(isInteger(temp) || isFraction(temp)) {
-           pile.insert(importantCount, temp); 
+            if(!isLog(pile.front())) {
+                pile.push(temp);
+            }
+            else {
+                while(isLog(pile.front())) {
+                    pile.pop();
+                }
+            }
         }
+       //if it is a log send it to the back
         else if(isLog(temp) || isIrrational(temp)) {
             
-            pile.push_back(temp);
+            pile.push(temp);
         }
         
     }
 }
- */       

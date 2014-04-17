@@ -27,6 +27,7 @@ int gcd(int a, int b) {
 	return gcd(b, a % b);
 }
 string simplifyLog(int base, int num) {
+        int originalNum = num;
 	//if the left log can be simplified to an int
 	//if the fractions can be simplified
 	vector<int> primeFactors;
@@ -71,7 +72,7 @@ string simplifyLog(int base, int num) {
 		ostringstream b;
 		ostringstream n;
 		b << base;
-		n << num;
+		n << originalNum;
 		return "log_" + b.str() + ":" + n.str();
 	}
 }
@@ -81,7 +82,7 @@ string simplifyRoot(double root, double base) {
 	ans = pow(base, (1 / root));
 	ostringstream a;
 	a << ans;
-	if (isInteger(a.str())) {
+	if (ans == (int) ans) {
 		answer = a.str();
 	}
 	else {
@@ -101,7 +102,7 @@ string simplifyRoot(double root, double base) {
 		o << outside;
 		i << inside;
 		n << root;
-		answer = o.str() + n.str() + ":rt" + i.str();
+		answer = o.str() + "*"+ n.str() + "rt:" + i.str();
 	}
 	return answer;
 }
@@ -130,17 +131,24 @@ bool isIrrational(string str) {
 		else if (istringstream(str.substr(i, 1)) >> num) {
 			i++;
 		}
+                    return false;
 	}
 }
 bool isInteger(string str) {
-    if(isInteger1(str) && isInteger2(str)) {
+    if(isInteger1(str) || isInteger2(str)) {
         return true;
+    }
+    else {
+        return false;
     }
 }
 bool isInteger1(string str) {
     int num;
-    if(istringstream(str) >> num) {
+    if(istringstream(str) >> num && !isPolynomial(str) && !isFraction(str) && !isNthRoot(str) && !isLog(str)) {
         return true;
+    }
+    else {
+        return false;
     }
 }
 bool isInteger2(string str) {
@@ -714,7 +722,6 @@ string add(string left, string right) {
 
 
 }
-
 string subtract(string left, string right) {
 	string rightRoot, leftRoot, a, leftB, rightB, leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
 	int leftC, rightC, final, leftIndex, rightIndex, originalLength, leftO, rightO, tempLEx, tempREx;
@@ -1124,8 +1131,6 @@ string subtract(string left, string right) {
 	}
 	return answer;
 }
-
-
 string multiply(string left, string right) {
 	string leftCoefficient, leftRoot, rightRoot, leftB, rightB, rightCoefficient, finalC, answer, leftExponent, rightExponent;
 	int leftC, rightC, final;
