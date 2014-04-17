@@ -8,10 +8,10 @@
 
 using namespace std;
 
-vector<string> expressions;
-vector<string> answers;
+//vector<string> expressions;
+//vector<string> answers;
 
-void mainmenu() {
+/*void mainmenu() {
 	cout << "Welcome to calculator. Enter the number of the desired option below" << endl;
 	cout << "(1) Compute new expression" << endl;
 	cout << "(2) Review previous expressions and answers" << endl;
@@ -23,11 +23,11 @@ void expmenu() {
 	cout << "(a) Back " << endl;
 	cout << "(b) Quit" << endl;
 	cout << "Enter expression:" << endl;
-}
+}*/
 
 int main() {
         
-	string option;
+	/*string option;
 	string option2;
 	option = "";
 	option2 = "";
@@ -57,18 +57,18 @@ int main() {
 					option == "4";
 					break;
 				}
-				else {
-					Expression * a = new Expression(expression);
+				else {*/
+					Expression * a = new Expression("2*4+8/64 + 16");
 					//cout << a->shunting() << endl << "Answer:" << a->evaluate() << endl;
 					cout << a->shunting() << endl;
                                         cout << a-> evaluate() << endl;
-                                        expressions.push_back(expression);
-					answers.push_back(a->evaluate());
-				}
+                                        //expressions.push_back(expression);
+					//answers.push_back(a->evaluate());
+				/*}
 			}
 		}
 		if (option == "2") {
-                    for (size_t n = 0; n < expressions.size(); n++) {
+                    /*for (size_t n = 0; n < expressions.size(); n++) {
                         cout << "The expression was: ";
                         cout << expressions[ n ] << " "<< endl;
                         cout << "The answer was: ";
@@ -79,6 +79,6 @@ int main() {
 			
 		}
 	}
-	
+	*/
 	
 }

@@ -1,6 +1,4 @@
 #include "Expression.h"
-#include "HelperFunctions.h"
-#include "Number.h"
 
 using namespace std;
 
@@ -41,18 +39,7 @@ int Expression::precedence(string s) {
         }
     return prec;
 }
-/*Number* Expression::stringToNumber(string a) {
-    HelperFunctions* n = new HelperFunctions(a);
-    return n->help();
-}*/
-string Expression::numberToString(Number* n) {
-    ostringstream temp;
-    temp << n;
-    string str = temp.str();
-    //n->toString();
-    return str;
-}
-string Expression::shunting(string userinput) {
+string Expression::shunting() {
 	// This entire block is performing the Reverse Polish Notation on the input.
 	double num;
 	// Read all characters one at a time
@@ -64,7 +51,7 @@ string Expression::shunting(string userinput) {
 		if (userinput[i] != ' ') {
 			// Check if it is a numeric value, converts the character at element 'i'
 			// into a double, if true, then it is a numeric value
-			if (istringstream(oneChar) >> num || userinput.find("log") < userinput.length() || userinput.find("pi")< userinput.length() || userinput.find('e')< userinput.length()) {
+			if (istringstream(oneChar) >> num || userinput[i] == 'l' || userinput[i] == 'L' || userinput[i] == 'p' || userinput[i] == 'P' || userinput[i] == 'e' || userinput[i] == 'E') {
 				while (i < userinput.length() && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
 					i++;
 					oneChar += userinput[i];
@@ -171,7 +158,7 @@ string Expression::shunting(string userinput) {
 
 	return rpn;
 }
-/*string Expression::evaluate(string rpn) {
+string Expression::evaluate() {
     double num;
     //While there are input tokens left
     for (int i = 0; i < rpn.length(); i++) {
@@ -179,7 +166,7 @@ string Expression::shunting(string userinput) {
         string oneChar;
         ss << rpn[i];
         ss >> oneChar;
-        if(rpn[i] != ' ') {													//Will there ever be spaces in a proper rpn string? unecessary.
+        if(rpn[i] != ' ') {								//Will there ever be spaces in a proper rpn string? unecessary.
             while(rpn.substr(i+1, 1) != " " && i < rpn.length()) {			//Won't first condition always be satisfied??
                 i++;
                 oneChar += rpn[i];
@@ -187,13 +174,39 @@ string Expression::shunting(string userinput) {
     //while(!rpn.empty()) {
             //Read the next token from input.
             //If the token is a value
-            if (istringstream(oneChar) >> num) {
+            if (istringstream(oneChar) >> num|| oneChar.find("log") < oneChar.length() || oneChar.find("e") < oneChar.length() || oneChar.find("pi") < oneChar.length()) {
                     //Push it onto the stack.
+                 /*if(isLog(oneChar)) {
+                      int base, n;
+                      string leftNum, leftBase;
+                      int i = 4;
+                      //Specified base for the log
+                      if(oneChar[3] == '_' ) {
+                          while(oneChar[i] != ':') {
+                              leftBase += oneChar[i];
+                              i++;
+                          }
+                          i++;
+                          while(i <= oneChar.length()-1) {
+                              leftNum += oneChar[i];
+                              i++;
+                          }
+                      }
+                      //This is log base 10
+                      else if(oneChar[3] == ':') {
+                          leftBase = "10";
+                          while(i <= oneChar.length()-1) {
+                              leftNum += oneChar[i];
+                              i++;
+                          }
+                      }
+                      istringstream(leftBase) >> base;
+                      istringstream(leftNum) >> n;
+                    oneChar = simplifyLog(base, n);
+                }	*/
                     mainStack.push(oneChar);
             }
             //Otherwise, the token is an operator (operator here includes both operators and functions).
-            else if(rpn[i] == ' ') {
-            }
             else {
             //It is known a priority that the operator takes 2 arguments.
             //If there are fewer than 2 values on the stack
@@ -205,49 +218,47 @@ string Expression::shunting(string userinput) {
                 //Else, Pop the top n values from the stack.
                 //Evaluate the operator, with the values as arguments.
                 //Push the returned results, if any, back onto the stack.
-                    Number* answer;
-                    Number* number1;
-                    Number* number2;
-                    string num1, num2;
+                    string answer, number1, number2, num1, num2;
                     if(oneChar == "+") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToNumber(num1);
-                        number2 = stringToNumber(num2);
-                        //answer = number1 + number2;
-                        //numStack.push(numberToString(answer));
+                        answer = add(num1, num2);
+                        mainStack.push(answer);
                     }
                     else if(oneChar == "-") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToNumber(num1);
-                        number2 = stringToNumber(num2);
-                        //answer = number1 - number2;
-                        //numStack.push(numberToString(answer));
+                        answer = subtract(num1, num2);
+                        mainStack.push(answer);
                     }
                     else if(oneChar == "*") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToNumber(num1);
-                        number2 = stringToNumber(num2);
-                        //answer = number1 * number2;
-                        //numStack.push(numberToString(answer));
+                        if(num1[num1.length()] == ' ') {
+                            num1 = num1.substr(0, num1.length()-1);
+                        }
+                        if(num2.find(" ") < num2.length()) {
+                            num2 = num2.substr(0, num2.length()-1);
+                        }
+                        //cout <<isInteger(num1) << endl;
+                        //cout << num2.length() << endl;
+                        //cout << isInteger(num2) << endl;
+                        answer = multiply(num1,num2);
+                        mainStack.push(answer);
                     }
                     else if(oneChar == "/") {
                         num2 = mainStack.top();
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        number1 = stringToNumber(num1);
-                        number2 = stringToNumber(num2);
-                        //answer = number1 / number2;
-                        //numStack.push(numberToString(answer));
+                        answer = divide(num1, num2);
+                        mainStack.push(answer);
                     }
                 }
                 //If there is only one value in the stack
@@ -260,15 +271,25 @@ string Expression::shunting(string userinput) {
     string final = mainStack.top();
     return final;
 }
-
-Number* Expression::simplification(Number* numerator, Number* denominator) {
-
+/*string Expression::reOrder(string final) {
+    vector<string> pile;
+    double num;
+    int importantCount = 0;
+	// Read all characters one at a time
+    for(int i = 0; i < final.length(); i++) {
+       string temp;
+        while(final[i] != '+' && ((final[i] == ':' && final[i+1] == '-') || final[i] != '-')) {
+                temp += final[i];
+                i++;
+        }
+        if(isInteger(temp) || isFraction(temp)) {
+           pile.insert(importantCount, temp); 
+        }
+        else if(isLog(temp) || isIrrational(temp)) {
+            
+            pile.push_back(temp);
+        }
+        
+    }
 }
-string Expression::exponentiate(Number* base, Number* power) {
-
-}
-Number* Expression::decimalToFraction(double dec) {
-
-}
-*/
-
+ */       

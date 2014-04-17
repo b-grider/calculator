@@ -1,8 +1,9 @@
+
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <exception>
-//#include "Add.h"
+#include <vector>
 using namespace std;
 class invalidIrrational: public exception {
   virtual const char* what() const throw()
@@ -19,42 +20,51 @@ int gcd(int a, int b) {
 string simplifyLog(int base, int num) {
     //if the left log can be simplified to an int
           //if the fractions can be simplified
+            vector<int> primeFactors;
+            int j = -1;
+            int counter = 0;
             int d, ans;
-            int gcf = 1;
+            //int gcf = 1;
             d = gcd(base, num);
-          //if the number is greater than the base
-          if(d != 1 && num > base) {
-              int j = 0;
-              while(num > 1) {
-                  num /= d;
-                  gcf *= d;
-                  j++;
-              }
-              if(gcf == num)
-                  if(num == 1) {
-                      ostringstream ans;
-                      ans << j;
-                      return ans.str();
-                  }
-                  else {
-                      gcf /= d;
-                      num /= gcf;
-                      ostringstream b;
-                      ostringstream n;
-                      b << base;
-                      n << num;
-                      return "log_" + b.str() + ":" + n.str();
-                  }
-          }
-          else {
+            if(num == 1) {
+                return "0";
+            }
+            for (int i=2; i <= num; i++) {
+	 	while(num % i == 0) { 
+			num /= i; 
+                        primeFactors.push_back(i);
+                        j++;
+                        if(primeFactors.at(j) == base) {
+                            counter++;
+                            primeFactors.pop_back();
+                            j--;
+                        }
+		} 
+            } 
+            int temp = 1;
+            while(!primeFactors.empty()) {
+                temp = primeFactors.back();
+                temp *= temp;
+                primeFactors.pop_back();
+            }
+            ostringstream remaining, b, c;
+            remaining << temp;
+            b << base;
+            c << counter;
+            if(temp == 1) {
+                return c.str();
+            }
+            if(counter != 0) {
+                return  c.str() + " + log_" + b.str() + ":" + remaining.str();
+            }
+            //if counter == 0
+            else {
               ostringstream b;
               ostringstream n;
               b << base;
               n << num;
               return "log_" + b.str() + ":" + n.str();
-          }
-
-          
+            }       
 }
 bool isNegative(string str) {
 	if (str[0] == '-') {
@@ -327,7 +337,7 @@ string add(string left, string right) {
               }
           }
           else {
-              answer = left + " + " + right;
+              answer = simplifiedLeft + " + " + simplifiedRight;
           }
         }
         else if(isFraction(left)) {
@@ -596,11 +606,11 @@ string subtract(string left, string right) {
                   answer = "log_" + leftBase + ":" + a ;
               }
               else {
-                answer = left + " - " + right;
+                answer = simplifiedLeft + " - " + simplifiedRight;
               }
           }
           else {
-              answer = left + " - " + right;
+              answer = simplifiedLeft + " - " + simplifiedRight;
           }
         }
         else if(isFraction(left)) {
@@ -1096,11 +1106,11 @@ string divide(string left, string right) {
                       answer = "log_" + rightNum + ":" + leftNum ;
                   }
                   else {
-                    answer = left + " / " + right;
+                    answer = simplifiedLeft + " / " + simplifiedRight;
                   }
               }
               else {
-                  answer = left + " / " + right;
+                  answer = simplifiedLeft + " / " + simplifiedRight;
               }
          } 
          else if (isFraction(left)) {
@@ -1184,3 +1194,4 @@ string divide(string left, string right) {
      }
      return answer;
  }
+
