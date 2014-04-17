@@ -1,7 +1,12 @@
 #include "Expression.h"
 
 using namespace std;
-
+class invalidOperator: public exception {
+  virtual const char* what() const throw()
+  {
+    return "You have entered an invalid operator";
+  }
+} invalidOperator;
 
 class parentheses: public exception {
   virtual const char* what() const throw()
@@ -28,6 +33,9 @@ bool Expression::isOperator(string c) {
 }
 int Expression::precedence(string s) {
     int prec;
+        if(s[0] == '^') {
+            prec = 3;
+        }
         if(s[0] == '/' || s[0] == '*') {
             prec = 2;
         }
@@ -176,7 +184,7 @@ string Expression::evaluate() {
             //If the token is a value
             if (istringstream(oneChar) >> num|| oneChar.find("log") < oneChar.length() || oneChar.find("e") < oneChar.length() || oneChar.find("pi") < oneChar.length()) {
                     //Push it onto the stack.
-                 /*if(isLog(oneChar)) {
+                 if(isLog(oneChar)) {
                       int base, n;
                       string leftNum, leftBase;
                       int i = 4;
@@ -203,7 +211,41 @@ string Expression::evaluate() {
                       istringstream(leftBase) >> base;
                       istringstream(leftNum) >> n;
                     oneChar = simplifyLog(base, n);
-                }	*/
+                }
+                 else if(isNthRoot(oneChar)) {
+                     int i = 0;
+                     string b, r;
+                     while(oneChar[i] != 'r' && oneChar[i] != '*') {
+                         r += oneChar[i];
+                         i++;
+                     }
+                     if(oneChar[i] == '*') {
+                         i++;
+                     }
+                     i += 3;
+                     while(i < oneChar.length()) {
+                         b += oneChar[i];
+                         i++;
+                     }
+                     double root, base;
+                     istringstream(b) >> base;
+                     istringstream(r) >> root;
+                     oneChar = simplifyRoot(root, base);
+                 }
+                 else if(isExponent(oneChar)) {
+                    int i = 0;
+                    string base, exponent;
+                    while(oneChar[i] != '^') {
+                        base += oneChar[i];
+                        i++;
+                    }
+                    i++;
+                    while(i < oneChar.length()) {
+                        exponent += oneChar[i];
+                        i++;
+                    }
+                     oneChar = exponentiate(base, exponent);
+                 }
                     mainStack.push(oneChar);
             }
             //Otherwise, the token is an operator (operator here includes both operators and functions).
@@ -246,9 +288,6 @@ string Expression::evaluate() {
                         if(num2.find(" ") < num2.length()) {
                             num2 = num2.substr(0, num2.length()-1);
                         }
-                        //cout <<isInteger(num1) << endl;
-                        //cout << num2.length() << endl;
-                        //cout << isInteger(num2) << endl;
                         answer = multiply(num1,num2);
                         mainStack.push(answer);
                     }
@@ -259,6 +298,9 @@ string Expression::evaluate() {
                         mainStack.pop();
                         answer = divide(num1, num2);
                         mainStack.push(answer);
+                    }
+                    else {
+                        throw invalidOperator;
                     }
                 }
                 //If there is only one value in the stack

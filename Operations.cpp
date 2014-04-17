@@ -4,7 +4,6 @@
 #include "Operations.h"
 #include <exception>
 #include <vector>
-
 #include <math.h>
 #include "Operations.h"
 
@@ -102,7 +101,7 @@ string simplifyRoot(double root, double base) {
 		o << outside;
 		i << inside;
 		n << root;
-		answer = o.str() + "*" + n.str() + ":rt" + i.str();
+		answer = o.str() + n.str() + ":rt" + i.str();
 	}
 	return answer;
 }
@@ -177,6 +176,9 @@ bool isLog(string str) {
 	if (!isPolynomial(str) && (str.find("log") < str.length())) {
 		return true;
 	}
+        else {
+            return false;
+        }
 }
 bool isNthRoot(string str) {
 	if (str.find("rt:") < str.length() || str.find("Rt:") < str.length() || str.find("rT:") < str.length() || str.find("RT:") < str.length()) {
@@ -207,6 +209,14 @@ bool isE(string str) {
 		}
 		i++;
 	}
+}
+bool isExponent(string str) {
+    if(str.find("^") < str.length()) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 string add(string left, string right) {
 	string rightRoot, leftRoot, leftB, rightB, leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
@@ -1807,4 +1817,13 @@ string divide(string left, string right) {
 		answer = left + " / " + right;
 	}
 	return answer;
+}
+string exponentiate(string left, string right) {
+    double b, e;
+    istringstream(left) >> b;
+    istringstream(right) >> e;
+    double answer = pow(b, e);
+    ostringstream ans;
+    ans << answer;
+    return ans.str();
 }
