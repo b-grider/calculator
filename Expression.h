@@ -19,6 +19,7 @@ class Expression {
             double dec;
             stack<string> mainStack;
             queue<string> mainQueue;
+            //vector<string> answers;
         public:
             Expression(string);
             bool isOperator(string);

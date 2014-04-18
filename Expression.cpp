@@ -1,4 +1,5 @@
 #include "Expression.h"
+#include "Driver.h"
 
 using namespace std;
 class invalidOperator: public exception {
@@ -58,8 +59,20 @@ string Expression::shunting() {
 		ss >> oneChar;
 		if (userinput[i] != ' ') {
 			// Check if it is a numeric value, converts the character at element 'i'
+                    //Allows the user to enter "ans" and the program will pull the last stored answer as long as the answer did not throw an
+                    /*if(oneChar[0] == 'a') {
+                        i++;
+                        while(oneChar.length() < 3 && i < userinput.length()) {
+                            oneChar += userinput[i];
+                            i++;
+                        }
+                        if(oneChar.find("ans") < oneChar.length()) {
+                            oneChar = answers.back();
+                            mainStack.push(oneChar);
+                        }
+                    } */
 			// into a double, if true, then it is a numeric value
-			if (istringstream(oneChar) >> num || userinput[i] == 'l' || userinput[i] == 'L' || userinput[i] == 'p' || userinput[i] == 'P' || userinput[i] == 'e' || userinput[i] == 'E') {
+                    if (istringstream(oneChar) >> num || userinput[i] == 'l' || userinput[i] == 'L' || userinput[i] == 'p' || userinput[i] == 'P' || userinput[i] == 'e' || userinput[i] == 'E') {
                             if(oneChar == "l") {
                                 i++;
                                 string mystring = "";
@@ -334,6 +347,8 @@ string Expression::evaluate() {
         }
     }
     string final = mainStack.top();
+    //answers.push_back(final);
+    //cout << "The value: "<< answers.back() << " was just added to the answers vector" << endl;
     return final;
 }
 string Expression::reOrder(string final) {

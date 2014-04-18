@@ -8,6 +8,12 @@
 #include "Operations.h"
 
 using namespace std;
+class divideByZero : public exception {
+	virtual const char* what() const throw()
+	{
+		return "You cannot divide by zero";
+	}
+} divideByZero;
 class negativeEvenRoot : public exception {
 	virtual const char* what() const throw()
 	{
@@ -595,11 +601,15 @@ string add(string left, string right) {
 				bottomRight += right[i];
 				i++;
 			}
+                        
 			istringstream(topLeft) >> leftNum;
 			istringstream(topRight) >> rightNum;
 			istringstream(bottomLeft) >> leftDenom;
 			istringstream(bottomRight) >> rightDenom;
-			//if the fractions can be simplified
+			if(leftDenom == 0 || rightDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
 			int d, e;
 			d = gcd(leftNum, leftDenom);
 			leftNum /= d;
@@ -629,10 +639,7 @@ string add(string left, string right) {
 			}
 			answer = numerator + "/" + denominator;
 		}
-		if (isPolynomial(left)) {
-
-		}
-		if (isInteger(left) && isInteger(right)) {
+                else if (isInteger(left) && isInteger(right)) {
 			int leftO, rightO, ans;
 			istringstream(left) >> leftO;
 			istringstream(right) >> rightO;
@@ -641,86 +648,96 @@ string add(string left, string right) {
 			t << ans;
 			answer = t.str();
 		}
+                else if (isInteger(left) && isFraction(right)) {
+                        string numerator, denominator;
+                        int i = 0;
+                        string topLeft, topRight, bottomLeft, bottomRight;
+                        int leftNum, rightNum, leftDenom, rightDenom, finalNum;
+                        while (right[i] != '/'){
+                                topRight += right[i];
+                                i++;
+                        }
+                        i++;
+                        while (i < right.length()) {
+                                bottomRight += right[i];
+                                i++;
+                        }
+                        topLeft = left;
+                        bottomLeft = "1";
+                        istringstream(topLeft) >> leftNum;
+                        istringstream(topRight) >> rightNum;
+                        istringstream(bottomLeft) >> leftDenom;
+                        istringstream(bottomRight) >> rightDenom;
+                        if(rightDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
+                        int d, e;
+                        e = gcd(rightNum, rightDenom);
+                        rightNum /= e;
+                        rightDenom /= e;
+                        leftNum *= rightDenom;
+                        leftDenom *= rightDenom;
+                        finalNum = leftNum + rightNum;
+                        e = gcd(finalNum, rightDenom);
+                        finalNum /= e;
+                        rightDenom /= e;
+                        ostringstream numer;
+                        numer << finalNum;
+                        numerator = numer.str();
+                        ostringstream denom;
+                        denom << rightDenom;
+                        denominator = denom.str();
+                        answer = numerator + "/" + denominator;
+                }
+                else if (isInteger(right) && isFraction(left)) {
+                        string numerator, denominator;
+                        int i = 0;
+                        string topLeft, topRight, bottomLeft, bottomRight;
+                        int leftNum, rightNum, leftDenom, rightDenom, finalNum;
+                        while (left[i] != '/'){
+                                topLeft += left[i];
+                                i++;
+                        }
+                        i++;
+                        while (i < left.length()) {
+                                bottomLeft += left[i];
+                                i++;
+                        }
 
-	}
-	else if (isInteger(left) && isFraction(right)) {
-		string numerator, denominator;
-		int i = 0;
-		string topLeft, topRight, bottomLeft, bottomRight;
-		int leftNum, rightNum, leftDenom, rightDenom, finalNum;
-		while (right[i] != '/'){
-			topRight += right[i];
-			i++;
-		}
-		i++;
-		while (i < right.length()) {
-			bottomRight += right[i];
-			i++;
-		}
-		topLeft = left;
-		bottomLeft = "1";
-		istringstream(topLeft) >> leftNum;
-		istringstream(topRight) >> rightNum;
-		istringstream(bottomLeft) >> leftDenom;
-		istringstream(bottomRight) >> rightDenom;
-		//if the fractions can be simplified
-		int d, e;
-		e = gcd(rightNum, rightDenom);
-		rightNum /= e;
-		rightDenom /= e;
-		leftNum *= rightDenom;
-		leftDenom *= rightDenom;
-		finalNum = leftNum + rightNum;
-		ostringstream numer;
-		numer << finalNum;
-		numerator = numer.str();
-		ostringstream denom;
-		denom << leftDenom;
-		denominator = denom.str();
-		answer = numerator + "/" + denominator;
-	}
-	else if (isInteger(right) && isFraction(left)) {
-		string numerator, denominator;
-		int i = 0;
-		string topLeft, topRight, bottomLeft, bottomRight;
-		int leftNum, rightNum, leftDenom, rightDenom, finalNum;
-		while (left[i] != '/'){
-			topLeft += left[i];
-			i++;
-		}
-		i++;
-		while (i < left.length()) {
-			bottomLeft += left[i];
-			i++;
-		}
-		topRight = right;
-		bottomRight = "1";
-		istringstream(topLeft) >> leftNum;
-		istringstream(topRight) >> rightNum;
-		istringstream(bottomLeft) >> leftDenom;
-		istringstream(bottomRight) >> rightDenom;
-		//if the fractions can be simplified
-		int d, e;
-		e = gcd(leftNum, leftDenom);
-		leftNum /= e;
-		leftDenom /= e;
-		rightNum *= leftDenom;
-		rightDenom *= leftDenom;
-		finalNum = leftNum + rightNum;
-		ostringstream numer;
-		numer << finalNum;
-		numerator = numer.str();
-		ostringstream denom;
-		denom << leftDenom;
-		denominator = denom.str();
-		answer = numerator + "/" + denominator;
-	}
+                        topRight = right;
+                        bottomRight = "1";
+                        istringstream(topLeft) >> leftNum;
+                        istringstream(topRight) >> rightNum;
+                        istringstream(bottomLeft) >> leftDenom;
+                        istringstream(bottomRight) >> rightDenom;
+                        if(leftDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
+                        int d, e;
+                        e = gcd(leftNum, leftDenom);
+                        leftNum /= e;
+                        leftDenom /= e;
+                        rightNum *= leftDenom;
+                        rightDenom *= leftDenom;
+                        finalNum = leftNum + rightNum;
+                        e = gcd(finalNum, leftDenom);
+                        finalNum /= e;
+                        leftDenom /= e;
+                        ostringstream numer;
+                        numer << finalNum;
+                        numerator = numer.str();
+                        ostringstream denom;
+                        denom << leftDenom;
+                        denominator = denom.str();
+                        answer = numerator + "/" + denominator;
+                }
+        }
 	else {
 		answer = left + " + " + right;
 	}
-	return answer;
-
-
+    return answer;
 }
 string subtract(string left, string right) {
 	string rightRoot, leftRoot, a, leftB, rightB, leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
@@ -1083,7 +1100,11 @@ string subtract(string left, string right) {
 			istringstream(topRight) >> rightNum;
 			istringstream(bottomLeft) >> leftDenom;
 			istringstream(bottomRight) >> rightDenom;
-			//if the fractions can be simplified
+			
+                        if(leftDenom == 0 || rightDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
 			int d, e;
 			d = gcd(leftNum, leftDenom);
 			leftNum /= d;
@@ -1113,10 +1134,10 @@ string subtract(string left, string right) {
 			}
 			answer = numerator + "/" + denominator;
 		}
-		if (isPolynomial(left)) {
+                else if (isPolynomial(left)) {
 
 		}
-		if (isInteger(left)) {
+                else if (isInteger(left)) {
 			int leftO, rightO, ans;
 			istringstream(left) >> leftO;
 			istringstream(right) >> rightO;
@@ -1125,6 +1146,91 @@ string subtract(string left, string right) {
 			t << ans;
 			answer = t.str();
 		}
+                else if (isInteger(left) && isFraction(right)) {
+                        string numerator, denominator;
+                        int i = 0;
+                        string topLeft, topRight, bottomLeft, bottomRight;
+                        int leftNum, rightNum, leftDenom, rightDenom, finalNum;
+                        while (right[i] != '/'){
+                                topRight += right[i];
+                                i++;
+                        }
+                        i++;
+                        while (i < right.length()) {
+                                bottomRight += right[i];
+                                i++;
+                        }
+                        topLeft = left;
+                        bottomLeft = "1";
+                        istringstream(topLeft) >> leftNum;
+                        istringstream(topRight) >> rightNum;
+                        istringstream(bottomLeft) >> leftDenom;
+                        istringstream(bottomRight) >> rightDenom;
+                        if(rightDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
+                        int d, e;
+                        e = gcd(rightNum, rightDenom);
+                        rightNum /= e;
+                        rightDenom /= e;
+                        leftNum *= rightDenom;
+                        leftDenom *= rightDenom;
+                        finalNum = leftNum - rightNum;
+                        e = gcd(finalNum, rightDenom);
+                        finalNum /= e;
+                        rightDenom /= e;
+                        ostringstream numer;
+                        numer << finalNum;
+                        numerator = numer.str();
+                        ostringstream denom;
+                        denom << rightDenom;
+                        denominator = denom.str();
+                        answer = numerator + "/" + denominator;
+                }
+                else if (isInteger(right) && isFraction(left)) {
+                        string numerator, denominator;
+                        int i = 0;
+                        string topLeft, topRight, bottomLeft, bottomRight;
+                        int leftNum, rightNum, leftDenom, rightDenom, finalNum;
+                        while (left[i] != '/'){
+                                topLeft += left[i];
+                                i++;
+                        }
+                        i++;
+                        while (i < left.length()) {
+                                bottomLeft += left[i];
+                                i++;
+                        }
+
+                        topRight = right;
+                        bottomRight = "1";
+                        istringstream(topLeft) >> leftNum;
+                        istringstream(topRight) >> rightNum;
+                        istringstream(bottomLeft) >> leftDenom;
+                        istringstream(bottomRight) >> rightDenom;
+                        if(leftDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
+                        int d, e;
+                        e = gcd(leftNum, leftDenom);
+                        leftNum /= e;
+                        leftDenom /= e;
+                        rightNum *= leftDenom;
+                        rightDenom *= leftDenom;
+                        finalNum = leftNum - rightNum;
+                        e = gcd(finalNum, leftDenom);
+                        finalNum /= e;
+                        leftDenom /= e;
+                        ostringstream numer;
+                        numer << finalNum;
+                        numerator = numer.str();
+                        ostringstream denom;
+                        denom << leftDenom;
+                        denominator = denom.str();
+                        answer = numerator + "/" + denominator;
+                }
 	}
 	else {
 		answer = left + " - " + right;
@@ -1883,6 +1989,89 @@ string divide(string left, string right) {
 				answer = numera.str() + "/" + denomi.str();
 			}
 		}
+                else if (isInteger(left) && isFraction(right)) {
+                        string numerator, denominator;
+                        int i = 0;
+                        string topLeft, topRight, bottomLeft, bottomRight;
+                        int leftNum, rightNum, leftDenom, rightDenom, finalNum;
+                        while (right[i] != '/'){
+                                bottomRight += right[i];
+                                i++;
+                        }
+                        i++;
+                        while (i < right.length()) {
+                                topRight += right[i];
+                                i++;
+                        }
+                        topLeft = left;
+                        bottomLeft = "1";
+                        istringstream(topLeft) >> leftNum;
+                        istringstream(topRight) >> rightNum;
+                        istringstream(bottomLeft) >> leftDenom;
+                        istringstream(bottomRight) >> rightDenom;
+                        if(rightDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
+                        int d, e;
+                        d = gcd(rightNum, rightDenom);
+                        rightNum /= d;
+                        rightDenom /= d;
+                        leftDenom *= rightDenom;
+                        finalNum = leftNum * rightNum;
+                        e = gcd(finalNum, leftDenom);
+                        finalNum /= e;
+                        leftDenom /= e;
+                        ostringstream numer;
+                        numer << finalNum;
+                        numerator = numer.str();
+                        ostringstream denom;
+                        denom << leftDenom;
+                        denominator = denom.str();
+                        answer = numerator + "/" + denominator;
+                }
+                else if (isInteger(right) && isFraction(left)) {
+                        string numerator, denominator;
+                        int i = 0;
+                        string topLeft, topRight, bottomLeft, bottomRight;
+                        int leftNum, rightNum, leftDenom, rightDenom, finalNum;
+                        while (left[i] != '/'){
+                                topLeft += left[i];
+                                i++;
+                        }
+                        i++;
+                        while (i < left.length()) {
+                                bottomLeft += left[i];
+                                i++;
+                        }
+
+                        bottomRight = right;
+                        topRight = "1";
+                        istringstream(topLeft) >> leftNum;
+                        istringstream(topRight) >> rightNum;
+                        istringstream(bottomLeft) >> leftDenom;
+                        istringstream(bottomRight) >> rightDenom;
+                        if(leftDenom == 0) {
+                            throw divideByZero;
+                        }
+                        //if the fractions can be simplified
+                        int d, e;
+                        d = gcd(leftNum, leftDenom);
+                        leftNum /= d;
+                        leftDenom /= d;
+                        rightDenom *= leftDenom;
+                        finalNum = leftNum * rightNum;
+                        e = gcd(finalNum, rightDenom);
+                        finalNum /= e;
+                        rightDenom /= e;
+                        ostringstream numer;
+                        numer << finalNum;
+                        numerator = numer.str();
+                        ostringstream denom;
+                        denom << rightDenom;
+                        denominator = denom.str();
+                        answer = numerator + "/" + denominator;
+                }
 	}
 	else {
 		answer = left + " / " + right;
