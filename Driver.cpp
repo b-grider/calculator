@@ -82,3 +82,9 @@ int main() {
 	
 	
 }
+												  
+/*int main()  {
+	Expression* e = new Expression("25^5+    56-9^4 *856/  25+log_5:(159)-1896");
+	cout << e->shunting() << endl;
+	cout << e->evaluate() << endl;
+}	*/

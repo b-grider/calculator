@@ -72,7 +72,7 @@ string Expression::shunting() {
                         }
                     } */
 			// into a double, if true, then it is a numeric value
-                    if (istringstream(oneChar) >> num || userinput[i] == 'l' || userinput[i] == 'L' || userinput[i] == 'p' || userinput[i] == 'P' || userinput[i] == 'e' || userinput[i] == 'E') {
+				if (istringstream(oneChar) >> num || userinput[i] == 's' || userinput[i] == 'S' || userinput[i] == 'l' || userinput[i] == 'L' || userinput[i] == 'p' || userinput[i] == 'P' || userinput[i] == 'e' || userinput[i] == 'E') {
                             if(oneChar == "l") {
                                 i++;
                                 string mystring = "";
@@ -87,13 +87,12 @@ string Expression::shunting() {
                             }
                             else {
                                 while (i < userinput.length() && userinput.substr(i+1, 1) != " " && !isOperator(userinput.substr(i+1,1)) && userinput.substr(i+1, 1) != "(" && userinput.substr(i+1, 1) != ")") {
-                                            i++;
+											i++;
                                             oneChar += userinput[i];
                                     }
                             }
 				// If number, push onto queue, remember, we are passing it back as a string!
-                                //HelperFunctions* n = new HelperFunctions(oneChar);
-                                mainQueue.push(oneChar);
+                mainQueue.push(oneChar);
 			}
                         else if(userinput[i] == '-' && i == 0) {
                             string firstNeg;
@@ -248,11 +247,14 @@ string Expression::evaluate() {
                       istringstream(leftNum) >> n;
                     oneChar = simplifyLog(base, n);
                 }
-                 else if(isNthRoot(oneChar)) {
+                else if(isNthRoot(oneChar)) {
                      int i = 0;
                      string b, r;
                      while(oneChar[i] != 'r' && oneChar[i] != '*') {
-                         r += oneChar[i];
+						 if (oneChar[i] == '(' || oneChar[i] == ')') {
+							 i++;
+						 }
+						 r += oneChar[i];
                          i++;
                      }
                      if(oneChar[i] == '*') {
@@ -260,6 +262,9 @@ string Expression::evaluate() {
                      }
                      i += 3;
                      while(i < oneChar.length()) {
+						 if (oneChar[i] == '(' || oneChar[i] == ')') {
+							 i++;
+						 }
                          b += oneChar[i];
                          i++;
                      }
@@ -272,11 +277,17 @@ string Expression::evaluate() {
                     int i = 0;
                     string base, exponent;
                     while(oneChar[i] != '^') {
+						if (oneChar[i] == '(' || oneChar[i] == ')') {
+							i++;
+						}
                         base += oneChar[i];
                         i++;
                     }
                     i++;
                     while(i < oneChar.length()) {
+						if (oneChar[i] == '(' || oneChar[i] == ')') {
+							i++;
+						}
                         exponent += oneChar[i];
                         i++;
                     }
@@ -382,4 +393,5 @@ string Expression::reOrder(string final) {
         }
         
     }
+	return "incomplete";
 }
