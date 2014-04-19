@@ -35,6 +35,8 @@ int main() {
 	char input[100];
 	
 	while(option!="4") {
+            option = "";
+            expression = "";
 
 	
 	mainmenu();
@@ -53,8 +55,7 @@ int main() {
 					break;
 				}
 				if (expression == "b") {
-					option == "4";
-					break;
+					return 0;
 				}
 				else {
 					Expression * a = new Expression(expression);
@@ -79,6 +80,11 @@ int main() {
 			
 		}
 	}
+	
+	//Errors:
+	//log_4:(1+2)    expressions within logs  (Crashes program)
+	//5^(1+2)   Don't know if this should be a large issue, but it should be "5^3" but it outputs "1+2" (Does not cause a crash, but is a miscalculation)
+	//Dividing by 0 causes a crash
 	
 	
 }
