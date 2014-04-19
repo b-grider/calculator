@@ -2,6 +2,12 @@
 #include "Driver.h"
 
 using namespace std;
+class mystery: public exception {
+  virtual const char* what() const throw()
+  {
+    return "You have somehow found a way to crash the program.";
+  }
+} mysteriousError;
 class invalidOperator: public exception {
   virtual const char* what() const throw()
   {
@@ -363,35 +369,53 @@ string Expression::evaluate() {
     return final;
 }
 string Expression::reOrder(string final) {
-    queue<string> pile;
+    vector<string> pile;
     double num;
+    string toBeEvaluated;
+    int NumberCount = 0;
     int importantCount = 0;
 	// Read all characters one at a time
     for(int i = 0; i < final.length(); i++) {
        string temp;
        //while you have not encountered a plus or minus sign
        //get the string of a number
-        while(final[i] != '+' && ((final[i] == ':' && final[i+1] == '-') || final[i] != '-')) {
-                temp += final[i];
-                i++;
-        }
-       //if the number is an integer or fraction push it onto the stack
-        if(isInteger(temp) || isFraction(temp)) {
-            if(!isLog(pile.front())) {
-                pile.push(temp);
+       /*if(final[0] == '-') {
+           i++;
+           temp = "-";
+       }
+       string oneChar = final.substr(1, i);
+       if((final[i] == '+' || final[i] == '-') && i != 0) {
+           string t = final.substr(1, i);
+           pile.push_back(t);
+       } */
+       //else {
+            while(final[i+1] != '+' && ((final[i+1] == ':' && final[i+2] == '-') || final[i+1] != '-') && i < final.length()) {
+                    temp += final[i];
+                    i++;
+           }
+           if(pile.empty()) {
+                       pile.push_back(temp);
+           }
+           //if the number is an integer or fraction push it onto the stack
+           else if(isInteger(temp) || isFraction(temp)) {
+               int j = 0;
+                   for(vector<string>::iterator it = pile.begin() ; it < pile.end(); it++, j++) {
+                     //while(j < pile.end()) {  
+                       if(isLog(pile[j]) && !isOperator(pile[j])) {
+                           j--;
+                           pile.insert(it, temp);
+                       }
+                       else if((isInteger(pile[j]) || isFraction(pile[j])) && !isOperator(pile[j])) {
+                           pile.insert(it+1, temp);
+                       }
+                   }
+           }
+           //if it is a log send it to the back
+           else if(isLog(temp) || isIrrational(temp) || isNthRoot(temp)) {
+                pile.push_back(temp);
             }
-            else {
-                while(isLog(pile.front())) {
-                    pile.pop();
-                }
-            }
-        }
-       //if it is a log send it to the back
-        else if(isLog(temp) || isIrrational(temp)) {
-            
-            pile.push(temp);
-        }
-        
-    }
+       }
+       
+    //}
 	return "incomplete";
 }
