@@ -90,10 +90,10 @@ int main() {
 }	  */
 												  
 int main()  {
-	Expression* e = new Expression("56-2^(5)/5*3+log_2:8");
+	Expression* e = new Expression("34-3pi + 68");
 	cout << e->shunting() << endl;
 	cout << e->evaluate() << endl;
-	Expression* f = new Expression(e->reOrder(e->evaluate()));
+	Expression* f = new Expression(e->reOrder(e->evaluate())); 
 	//cout << e->reOrder(e->evaluate()) << endl;
 	cout << f->shunting() << endl;
 	cout << f->evaluate() << endl;

@@ -63,6 +63,17 @@ string simplifyLog(int base, int num) {
 		temp *= temp;
 		primeFactors.pop_back();
 	}
+        //int outside = 1;
+        /*int d = (int)root;
+        while (d * d <= num) {
+                if (num % (d * d) == 0) { // inside log evenly divisible by itself
+                        num = num / (d * d);
+                        outside = outside * d;
+                }
+                else {
+                        d = d + 1;
+                }
+	}*/
 	ostringstream remaining, b, c;
 	remaining << temp;
 	b << base;
@@ -104,12 +115,18 @@ string simplifyRoot(double root, double base) {
 				d = d + 1;
 			}
 		}
+                
 		ostringstream o, i, n;
 		o << outside;
 		i << inside;
 		n << root;
-		answer = o.str() + "*"+ n.str() + "rt:" + i.str();
-	}
+		if(outside == 1) {
+                    answer = n.str() + "rt:" + i.str();
+                }
+                else {
+                        answer = o.str() + "*"+ n.str() + "rt:" + i.str();
+                }
+        }
 	return answer;
 }
 bool isNegative(string str) {
@@ -1853,7 +1870,9 @@ string multiply(string left, string right) {
 		}
 
 	}
-
+        else if(isInteger(left) && isNthRoot(right)) {
+            answer = left + "*" + right;
+        }
 	else {
 		answer = "(" + left + ")" + " * " + "(" + right + ")";
 	}
@@ -1888,9 +1907,7 @@ string divide(string left, string right) {
 						rightB += right[i];
 					}
 					i++;
-
 				}
-
 			}
 			if (!isSqrt(right)){
 				int i = 0;
