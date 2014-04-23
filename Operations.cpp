@@ -187,12 +187,12 @@ bool isPolynomial(string str) {
 	return false;
 }
 bool isLog(string str) {
-	if (!isPolynomial(str) && (str.find("log") < str.length())) {
+	if (str.find("log") < str.length()) {
 		return true;
 	}
-        else {
-            return false;
-        }
+    else {
+        return false;
+    }
 }
 bool isNthRoot(string str) {
 	if (str.find("rt:") < str.length() || str.find("Rt:") < str.length() || str.find("rT:") < str.length() || str.find("RT:") < str.length()) {
@@ -214,6 +214,7 @@ bool isPi(string str) {
 		}
 		i++;
 	}
+	return false;
 }
 bool isE(string str) {
 	int i = 0;
@@ -223,6 +224,7 @@ bool isE(string str) {
 		}
 		i++;
 	}
+	return false;
 }
 bool isExponent(string str) {
     if(str.find("^") < str.length()) {
@@ -620,9 +622,15 @@ string add(string left, string right) {
                         //if the fractions can be simplified
 			int d, e;
 			d = gcd(leftNum, leftDenom);
+			if (d == -1) {
+				d = 1;
+			}
 			leftNum /= d;
 			leftDenom /= d;
 			e = gcd(rightNum, rightDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			rightNum /= e;
 			rightDenom /= e;
 			if (leftDenom == rightDenom) {
@@ -694,13 +702,19 @@ string add(string left, string right) {
                         }
                         //if the fractions can be simplified
                         int d, e;
-                        e = gcd(rightNum, rightDenom);
-                        rightNum /= e;
-                        rightDenom /= e;
+                        d = gcd(rightNum, rightDenom);
+						if (d == -1) {
+							d = 1;
+						}
+                        rightNum /= d;
+                        rightDenom /= d;
                         leftNum *= rightDenom;
                         leftDenom *= rightDenom;
                         finalNum = leftNum + rightNum;
                         e = gcd(finalNum, rightDenom);
+						if (e == -1) {
+							e = 1;
+						}
                         finalNum /= e;
                         rightDenom /= e;
 						if (rightDenom < 0) {
@@ -754,13 +768,19 @@ string add(string left, string right) {
                         }
                         //if the fractions can be simplified
                         int d, e;
-                        e = gcd(leftNum, leftDenom);
-                        leftNum /= e;
-                        leftDenom /= e;
+                        d = gcd(leftNum, leftDenom);
+						if (d == -1) {
+							d = 1;
+						}
+                        leftNum /= d;
+						leftDenom /= d;
                         rightNum *= leftDenom;
                         rightDenom *= leftDenom;
                         finalNum = leftNum + rightNum;
                         e = gcd(finalNum, leftDenom);
+						if (e == -1) {
+							e = 1;
+						}
                         finalNum /= e;
                         leftDenom /= e;
 						if (leftDenom < 0) {
@@ -1097,6 +1117,9 @@ string subtract(string left, string right) {
 			}
 			else {
 				int p = gcd(tempLNum, tempRNum);
+				if (p == -1) {
+					p = 1;
+				}
 				tempLNum /= p;
 				tempRNum /= p;
 				ostringstream c, d;
@@ -1161,9 +1184,15 @@ string subtract(string left, string right) {
                         //if the fractions can be simplified
 			int d, e;
 			d = gcd(leftNum, leftDenom);
+			if (d == -1) {
+				d = 1;
+			}
 			leftNum /= d;
 			leftDenom /= d;
 			e = gcd(rightNum, rightDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			rightNum /= e;
 			rightDenom /= e;
 			if (leftDenom == rightDenom) {
@@ -1226,13 +1255,19 @@ string subtract(string left, string right) {
 			}
 			//if the fractions can be simplified
 			int d, e;
-			e = gcd(rightNum, rightDenom);
-			rightNum /= e;
-			rightDenom /= e;
+			d = gcd(rightNum, rightDenom);
+			if (d == -1) {
+				d = 1;
+			}
+			rightNum /= d;
+			rightDenom /= d;
 			leftNum *= rightDenom;
 			leftDenom *= rightDenom;
 			finalNum = leftNum - rightNum;
 			e = gcd(finalNum, rightDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			finalNum /= e;
 			rightDenom /= e;
 			if (rightDenom < 0) {
@@ -1287,12 +1322,18 @@ string subtract(string left, string right) {
 			//if the fractions can be simplified
 			int d, e;
 			e = gcd(leftNum, leftDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			leftNum /= e;
 			leftDenom /= e;
 			rightNum *= leftDenom;
 			rightDenom *= leftDenom;
 			finalNum = leftNum - rightNum;
 			e = gcd(finalNum, leftDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			finalNum /= e;
 			leftDenom /= e;
 			if (leftDenom < 0) {
@@ -1717,10 +1758,16 @@ string multiply(string left, string right) {
 			//if the fractions can be simplified
 			int d, e;
 			e = gcd(rightNum, rightDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			rightNum /= e;
 			rightDenom /= e;
 			finalNum = leftNum * rightNum;
 			e = gcd(finalNum, rightDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			finalNum /= e;
 			rightDenom /= e;
 			if (rightDenom < 0) {
@@ -1775,10 +1822,16 @@ string multiply(string left, string right) {
 			//if the fractions can be simplified
 			int d, e;
 			e = gcd(leftNum, leftDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			leftNum /= e;
 			leftDenom /= e;
 			finalNum = leftNum * rightNum;
 			e = gcd(finalNum, leftDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			finalNum /= e;
 			leftDenom /= e;
 			if (leftDenom < 0) {
@@ -1907,6 +1960,9 @@ string divide(string left, string right) {
 			}
 			else {
 				int d = gcd(leftC, rightC);
+				if (d == -1) {
+					d = 1;
+				}
 				leftC /= d;
 				rightC /= d;
 				ostringstream tempNumerator;
@@ -2092,6 +2148,9 @@ string divide(string left, string right) {
 			//if the two logs simplify to integers but the integers are not evenly divisible
 			else if (isInteger(simplifiedLeft) && isInteger(simplifiedRight) && !(leftO % rightO == 0)) {
 				int a = gcd(leftO, rightO);
+				if (a == -1) {
+					a = 1;
+				}
 				ostringstream n;
 				ostringstream d;
 				leftO /= a;
@@ -2152,14 +2211,23 @@ string divide(string left, string right) {
 			//if the fractions can be simplified
 			int d, e;
 			d = gcd(leftNum, leftDenom);
+			if (d == -1) {
+				d = 1;
+			}
 			leftNum /= d;
 			leftDenom /= d;
 			e = gcd(rightNum, rightDenom);
+			if (e == -1) {
+				e = 1;
+			}
 			rightNum /= e;
 			rightDenom /= e;
 			finalNum = leftNum * rightNum;
 			finalDenom = leftDenom * rightDenom;
 			int g = gcd(finalNum, finalDenom);
+			if (g == -1) {
+				g = 1;
+			}
 			finalNum /= g;
 			finalDenom /= g;
 			if (finalDenom < 0) {
@@ -2193,6 +2261,9 @@ string divide(string left, string right) {
 			}
 			else {
 				int d = gcd(leftO, rightO);
+				if (d == -1) {
+					d = 1;
+				}
 				leftO /= d;
 				rightO /= d;
 				ostringstream numera;
@@ -2236,12 +2307,18 @@ string divide(string left, string right) {
                         //if the fractions can be simplified
                         int d, e;
                         d = gcd(rightNum, rightDenom);
-                        rightNum /= d;
+						if (d == -1) {
+							d = 1;
+						}
+						rightNum /= d;
                         rightDenom /= d;
                         leftDenom *= rightDenom;
                         finalNum = leftNum * rightNum;
                         e = gcd(finalNum, leftDenom);
-                        finalNum /= e;
+						if (e == -1) {
+							e = 1;
+						}
+						finalNum /= e;
                         leftDenom /= e;
 						if (leftDenom < 0) {
 							leftDenom *= -1;
@@ -2295,11 +2372,17 @@ string divide(string left, string right) {
                         //if the fractions can be simplified
                         int d, e;
                         d = gcd(leftNum, leftDenom);
+						if (d == -1) {
+							d = 1;
+						}
                         leftNum /= d;
                         leftDenom /= d;
                         rightDenom *= leftDenom;
                         finalNum = leftNum * rightNum;
                         e = gcd(finalNum, rightDenom);
+						if (e == -1) {
+							e = 1;
+						}
                         finalNum /= e;
                         rightDenom /= e;
 						if (rightDenom < 0) {

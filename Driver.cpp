@@ -7,7 +7,7 @@
 #include <vector>
 
 using namespace std;
-vector<string> expressions;
+/*vector<string> expressions;
 vector<string> answers;
 
 void mainmenu() {
@@ -87,10 +87,14 @@ int main() {
 	//Dividing by 0 causes a crash
 	
 	
-}
+}	  */
 												  
-/*int main()  {
-	Expression* e = new Expression("25^5+    56-9^4 *856/  25+log_5:(159)-1896");
+int main()  {
+	Expression* e = new Expression("56-2^(5)/5*3+log_2:8");
 	cout << e->shunting() << endl;
 	cout << e->evaluate() << endl;
-}	*/
+	Expression* f = new Expression(e->reOrder(e->evaluate()));
+	//cout << e->reOrder(e->evaluate()) << endl;
+	cout << f->shunting() << endl;
+	cout << f->evaluate() << endl;
+}

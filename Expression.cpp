@@ -335,12 +335,6 @@ string Expression::evaluate() {
                         mainStack.pop();
                         num1 = mainStack.top();
                         mainStack.pop();
-                        if(num1[num1.length()] == ' ') {
-                            num1 = num1.substr(0, num1.length()-1);
-                        }
-                        if(num2.find(" ") < num2.length()) {
-                            num2 = num2.substr(0, num2.length()-1);
-                        }
                         answer = multiply(num1,num2);
                         mainStack.push(answer);
                     }
@@ -370,52 +364,59 @@ string Expression::evaluate() {
 }
 string Expression::reOrder(string final) {
     vector<string> pile;
-    double num;
-    string toBeEvaluated;
-    int NumberCount = 0;
-    int importantCount = 0;
-	// Read all characters one at a time
-    for(int i = 0; i < final.length(); i++) {
-       string temp;
-       //while you have not encountered a plus or minus sign
-       //get the string of a number
-       /*if(final[0] == '-') {
-           i++;
-           temp = "-";
-       }
-       string oneChar = final.substr(1, i);
-       if((final[i] == '+' || final[i] == '-') && i != 0) {
-           string t = final.substr(1, i);
-           pile.push_back(t);
-       } */
-       //else {
-            while(final[i+1] != '+' && ((final[i+1] == ':' && final[i+2] == '-') || final[i+1] != '-') && i < final.length()) {
-                    temp += final[i];
-                    i++;
-           }
-           if(pile.empty()) {
-                       pile.push_back(temp);
-           }
-           //if the number is an integer or fraction push it onto the stack
-           else if(isInteger(temp) || isFraction(temp)) {
-               int j = 0;
-                   for(vector<string>::iterator it = pile.begin() ; it < pile.end(); it++, j++) {
-                     //while(j < pile.end()) {  
-                       if(isLog(pile[j]) && !isOperator(pile[j])) {
-                           j--;
-                           pile.insert(it, temp);
-                       }
-                       else if((isInteger(pile[j]) || isFraction(pile[j])) && !isOperator(pile[j])) {
-                           pile.insert(it+1, temp);
-                       }
-                   }
-           }
-           //if it is a log send it to the back
-           else if(isLog(temp) || isIrrational(temp) || isNthRoot(temp)) {
-                pile.push_back(temp);
-            }
-       }
-       
-    //}
-	return "incomplete";
+	int vectorIndex = 0;
+	size_t n = 0;
+	for (int i = 0; i < final.length(); i++) {
+		string temp;
+		if (final[i] == '-' ) {
+			temp = "-";
+			i++;
+		}		
+		if (final[i] == '+') {
+			temp = "+";
+			i++;
+		}
+		//while you have not come across a plus or minus sign grab everything before the sign				   
+		//once you come across a plus sign this will break
+		while (final[i+1] != '+' && final[i+1] != '-' && (i+1) < final.length()) {
+			temp += final[i];
+			i++;
+		}
+		if (pile.empty()) {
+			pile.push_back(temp);
+		}
+		//if the string is an integer or a fraction then traverse the vector to find the last integer 
+		else if (isInteger(temp) || isFraction(temp)) {
+			//if it begins with an integer or fraction
+			if (isInteger(pile[0]) || isFraction(pile[0])) {  
+			   //iterate through and see where the first log is 
+				for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
+					//once you find a log go back an index and insert
+					if (isLog(*it) || isIrrational(*it)) {
+						it--;
+						pile.insert(it, temp);
+						break;
+					}
+					//else if the left has an integer and the right has an irrational insert after left.
+					else if ((isInteger(*it) || isFraction(*it)) && (isLog(*(it + 1)) || isIrrational(*(it + 1)))) {
+						it++;
+						pile.insert(it, temp);
+						break;
+					}
+				}
+				/*while ((isInteger(pile[n]) || isFraction(pile[n])) && n < pile.size()) {
+					vectorIndex++;
+				}	   */
+				//now that we have found the last instance of an integer in the vector insert the string to the next index position.
+			}
+		}
+		else if (isLog(temp) || isIrrational(temp)) {
+			pile.push_back(temp);
+		}
+	}
+	userinput = "";
+	for (size_t n = 0; n < pile.size(); n++) {
+		userinput += pile[n];
+	}
+	return userinput;
 }
