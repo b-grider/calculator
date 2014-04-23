@@ -138,12 +138,18 @@ bool isNegative(string str) {
 bool isIrrational(string str) {
 	int i = 0;
 	int num;
+        if(str[0] == '+') {
+            str = str.substr(1, str.length()-1);
+        }
 	while (i < str.length()) {
-		if (!(istringstream(str.substr(i, 1)) >> num)) {
-			if (str.find("pi") < str.length() || str.find("pI") < str.length() || str.find("Pi") < str.length() || str.find("PI") < str.length()) {
+		if (istringstream(str.substr(i, 1)) >> num) {
+			i++;
+		}
+                else if (!(istringstream(str.substr(i, 1)) >> num)) {
+			if ((str.find("pi") < str.length() || str.find("pI") < str.length() || str.find("Pi") < str.length() || str.find("PI") < str.length()) && !isPolynomial(str)) {
 				return true;
 			}
-			else if (str.find("e") < str.length() || str.find("E") < str.length()) {
+			else if ((str.find("e") < str.length() || str.find("E") < str.length()) && !isPolynomial(str)) {
 				return true;
 			}
 			else {
@@ -151,11 +157,8 @@ bool isIrrational(string str) {
 				return false;
 			}
 		}
-		else if (istringstream(str.substr(i, 1)) >> num) {
-			i++;
-		}
-                    return false;
-	}
+	} 
+        return false;
 }
 bool isInteger(string str) {
     if(isInteger1(str) || isInteger2(str)) {
@@ -167,7 +170,10 @@ bool isInteger(string str) {
 }
 bool isInteger1(string str) {
     int num;
-    if(istringstream(str) >> num && !isPolynomial(str) && !isFraction(str) && !isNthRoot(str) && !isLog(str)) {
+    if(str[0] == '+') {
+        str = str.substr(1, str.length()-1);
+    }
+    if(istringstream(str) >> num && !isPolynomial(str) && !isIrrational(str) && !isFraction(str) && !isNthRoot(str) && !isLog(str)) {
         return true;
     }
     else {
@@ -212,7 +218,7 @@ bool isLog(string str) {
     }
 }
 bool isNthRoot(string str) {
-	if (str.find("rt:") < str.length() || str.find("Rt:") < str.length() || str.find("rT:") < str.length() || str.find("RT:") < str.length()) {
+	if ((str.find("rt:") < str.length() || str.find("Rt:") < str.length() || str.find("rT:") < str.length() || str.find("RT:") < str.length()) && !isPolynomial(str)) {
 		return true;
 	}
 	return false;
@@ -255,7 +261,7 @@ string add(string left, string right) {
 	string rightRoot, leftRoot, leftB, rightB, leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
 	int leftC, rightC, final, leftIndex, rightIndex, originalLength, leftO, rightO, tempLEx, tempREx;
 	//checks if the left and right operands are of the same type
-	if ((isNthRoot(left) && isNthRoot(right)) || (isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right)) || (isInteger(left) && isFraction(right)) ||(isFraction(left) && isInteger(right))) {
+	if ((isPolynomial(left) && isPolynomial(right)) || (isNthRoot(left) && isNthRoot(right)) || (isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isInteger(left) && isFraction(right)) ||(isFraction(left) && isInteger(right))) {
 		//dealing with roots
 		if (isNthRoot(left)){
 			if (isSqrt(left)){
@@ -827,7 +833,7 @@ string subtract(string left, string right) {
 	string rightRoot, leftRoot, a, leftB, rightB, leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
 	int leftC, rightC, final, leftIndex, rightIndex, originalLength, leftO, rightO, tempLEx, tempREx;
 	//checks if the left and right operands are of the same type
-	if (((isNthRoot(left) && isNthRoot(right)) || isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right)) || (isInteger(left) && isFraction(right)) || (isFraction(left) && isInteger(right))) {
+	if ((isPolynomial(left) && isPolynomial(right)) || ((isNthRoot(left) && isNthRoot(right)) || isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isInteger(left) && isFraction(right)) || (isFraction(left) && isInteger(right))) {
 		//dealing with roots
 		if (isNthRoot(left)){
 			if (isSqrt(left)){
@@ -1390,7 +1396,7 @@ string multiply(string left, string right) {
 	int leftC, rightC, final;
 	double leftex, rightex, leftco, rightco, finalco, finalex;
 	//checks if the left and right operands are of the same type
-	if (((isNthRoot(left) && isNthRoot(right)) || isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right)) || (isInteger(left) && isFraction(right)) || (isFraction(left) && isInteger(right))) {
+	if ((isPolynomial(left) && isPolynomial(right)) || ((isNthRoot(left) && isNthRoot(right)) || isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isInteger(left) && isFraction(right)) || (isFraction(left) && isInteger(right))) {
 		//dealing with roots
 		if (isNthRoot(left)){
 			if (isSqrt(left)){
@@ -1882,7 +1888,7 @@ string divide(string left, string right) {
 	string rightRoot, leftRoot, leftB, rightB, finalE, leftCoefficient, rightCoefficient, leftExponent, rightExponent, finalC, answer, simplifiedLeft, simplifiedRight;
 	int leftC, rightC, final, leftE, rightE, leftIndex, rightIndex, originalLength, leftO, rightO, tempLEx, tempREx;
 	//checks if the left and right operands are of the same type
-	if (((isNthRoot(left) && isNthRoot(right)) || isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isPolynomial(left) && isPolynomial(right)) || (isInteger(left) && isFraction(right)) || (isFraction(left) && isInteger(right))) {
+	if ((isPolynomial(left) && isPolynomial(right)) || ((isNthRoot(left) && isNthRoot(right)) || isIrrational(left) && isIrrational(right)) || (isFraction(left) && isFraction(right)) || (isInteger(left) && isInteger(right)) || (isLog(left) && isLog(right)) || (isInteger(left) && isFraction(right)) || (isFraction(left) && isInteger(right))) {
 		//dealing with roots
 		if (isNthRoot(left)){
 			if (isSqrt(left)){

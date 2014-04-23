@@ -90,7 +90,7 @@ int main() {
 }	  */
 												  
 int main()  {
-	Expression* e = new Expression("34-3pi + 68");
+	Expression* e = new Expression("34-3pi + 68-6pi+45+8pi");
 	cout << e->shunting() << endl;
 	cout << e->evaluate() << endl;
 	Expression* f = new Expression(e->reOrder(e->evaluate())); 

@@ -386,7 +386,7 @@ string Expression::reOrder(string final) {
 			pile.push_back(temp);
 		}
 		//if the string is an integer or a fraction then traverse the vector to find the last integer 
-		else if (isInteger(temp) || isFraction(temp)) {
+                else if (isInteger(temp) || isFraction(temp)) {
 			//if it begins with an integer or fraction
 			if (isInteger(pile[0]) || isFraction(pile[0])) {  
 			   //iterate through and see where the first log is 
@@ -420,6 +420,7 @@ string Expression::reOrder(string final) {
                                         break;
                                 }
                         }
+                        //pile.push_back(temp);
                     }
                     else if(isIrrational(temp)) {
                         for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
@@ -444,7 +445,7 @@ string Expression::reOrder(string final) {
                         }
                         
                     }
-                    else if(add == false) {
+                    if(add == false) {
                         pile.push_back(temp);
                     }
 		}
@@ -453,6 +454,11 @@ string Expression::reOrder(string final) {
 	userinput = "";
 	for (size_t n = 0; n < pile.size(); n++) {
 		userinput += pile[n];
-	}
+	} 
+        string tempInt;
+        string tempIrrationals;
+        for(vector<string>::iterator finalIt = pile.begin(); !isLog(*finalIt) && !isIrrational(*finalIt) && !isNthRoot(*finalIt); finalIt++) {
+            tempInt += *finalIt;
+        }
 	return userinput;
 }
