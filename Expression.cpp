@@ -14,7 +14,6 @@ class invalidOperator: public exception {
     return "You have entered an invalid operator";
   }
 } invalidOperator;
-
 class parentheses: public exception {
   virtual const char* what() const throw()
   {
@@ -366,6 +365,7 @@ string Expression::reOrder(string final) {
     vector<string> pile;
 	int vectorIndex = 0;
 	size_t n = 0;
+        bool add = false;
 	for (int i = 0; i < final.length(); i++) {
 		string temp;
 		if (final[i] == '-' ) {
@@ -392,7 +392,7 @@ string Expression::reOrder(string final) {
 			   //iterate through and see where the first log is 
 				for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
 					//once you find a log go back an index and insert
-					if (isLog(*it) || isIrrational(*it)) {
+					if (isLog(*it) || isIrrational(*it) || isNthRoot(*it)) {
 						it--;
 						pile.insert(it, temp);
 						break;
@@ -410,9 +410,45 @@ string Expression::reOrder(string final) {
 				//now that we have found the last instance of an integer in the vector insert the string to the next index position.
 			}
 		}
-		else if (isLog(temp) || isIrrational(temp)) {
-			pile.push_back(temp);
+                else if (isLog(temp) || isIrrational(temp) || isNthRoot(temp)) {
+                    if(isLog(temp)) {
+                        for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
+                                if (isLog(*it)) {
+                                        it++;
+                                        pile.insert(it, temp);
+                                        add = true;
+                                        break;
+                                }
+                        }
+                    }
+                    else if(isIrrational(temp)) {
+                        for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
+                                //once you find a log go back an index and insert
+                                if (isIrrational(*it)) {
+                                        it++;
+                                        pile.insert(it, temp);
+                                        add = true;
+                                        break;
+                                }
+                        }
+                    }
+                    else if(isNthRoot(temp)) {
+                        for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
+                                //once you find a log go back an index and insert
+                                if (isNthRoot(*it)) {
+                                        it++;
+                                        pile.insert(it, temp);
+                                        add = true;
+                                        break;
+                                }
+                        }
+                        
+                    }
+                    else if(add == false) {
+                        pile.push_back(temp);
+                    }
 		}
+                
 	}
 	userinput = "";
 	for (size_t n = 0; n < pile.size(); n++) {

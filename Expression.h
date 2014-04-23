@@ -23,7 +23,7 @@ class Expression {
         public:
             Expression(string);
             bool isOperator(string);
-			int precedence(string);
+            int precedence(string);
             string shunting();
             string evaluate();
             string reOrder(string);
