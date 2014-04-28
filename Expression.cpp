@@ -368,17 +368,17 @@ string Expression::reOrder(string final) {
         bool add = false;
 	for (int i = 0; i < final.length(); i++) {
 		string temp;
-		if (final[i] == '-' ) {
+		if (final[i-1] == '-' ) {
 			temp = "-";
 			i++;
 		}		
-		if (final[i] == '+') {
+		if (final[i-1] == '+') {
 			temp = "+";
 			i++;
 		}
 		//while you have not come across a plus or minus sign grab everything before the sign				   
 		//once you come across a plus sign this will break
-		while (final[i+1] != '+' && final[i+1] != '-' && (i+1) < final.length()) {
+		while (final[i] != '+' && final[i] != '-' && i < final.length()) {
 			temp += final[i];
 			i++;
 		}
@@ -386,7 +386,7 @@ string Expression::reOrder(string final) {
 			pile.push_back(temp);
 		}
 		//if the string is an integer or a fraction then traverse the vector to find the last integer 
-                else if (isInteger(temp) || isFraction(temp)) {
+            else if (isInteger(temp) || isFraction(temp)) {
 			//if it begins with an integer or fraction
 			if (isInteger(pile[0]) || isFraction(pile[0])) {  
 			   //iterate through and see where the first log is 
@@ -455,10 +455,10 @@ string Expression::reOrder(string final) {
 	for (size_t n = 0; n < pile.size(); n++) {
 		userinput += pile[n];
 	} 
-        string tempInt;
+        /*(string tempInt;
         string tempIrrationals;
         for(vector<string>::iterator finalIt = pile.begin(); !isLog(*finalIt) && !isIrrational(*finalIt) && !isNthRoot(*finalIt); finalIt++) {
             tempInt += *finalIt;
-        }
+        }	*/
 	return userinput;
 }
