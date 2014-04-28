@@ -356,32 +356,34 @@ string Expression::evaluate() {
             }
         }
     }
-    string final = mainStack.top();
+    final = mainStack.top();
     //answers.push_back(final);
     //cout << "The value: "<< answers.back() << " was just added to the answers vector" << endl;
     return final;
 }
-string Expression::reOrder(string final) {
+string Expression::reOrder() {
     vector<string> pile;
 	int vectorIndex = 0;
 	size_t n = 0;
         bool add = false;
-	for (int i = 0; i < final.length(); i++) {
-		string temp;
-		if (final[i-1] == '-' ) {
-			temp = "-";
-			i++;
-		}		
-		if (final[i-1] == '+') {
-			temp = "+";
-			i++;
-		}
-		//while you have not come across a plus or minus sign grab everything before the sign				   
-		//once you come across a plus sign this will break
-		while (final[i] != '+' && final[i] != '-' && i < final.length()) {
-			temp += final[i];
-			i++;
-		}
+		int i = 0;
+		while (i < final.length()) {
+		//for (int i = 0; i < final.length(); i++) {
+			string temp;
+			if (final[i] == '-' && i < final.length()) {
+				temp = "-";
+				i++;
+			}
+			if (final[i] == '+' && i < final.length()) {
+				temp = "+";
+				i++;
+			}
+			//while you have not come across a plus or minus sign grab everything before the sign				   
+			//once you come across a plus sign this will break
+			while (final[i] != '+' && final[i] != '-' && i < final.length()) {
+				temp += final[i];
+				i++;
+			}
 		if (pile.empty()) {
 			pile.push_back(temp);
 		}
@@ -460,5 +462,8 @@ string Expression::reOrder(string final) {
         for(vector<string>::iterator finalIt = pile.begin(); !isLog(*finalIt) && !isIrrational(*finalIt) && !isNthRoot(*finalIt); finalIt++) {
             tempInt += *finalIt;
         }	*/
+	if (userinput.compare(final) == 0) {
+		userinput = final;
+	}
 	return userinput;
 }

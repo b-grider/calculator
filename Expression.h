@@ -16,6 +16,7 @@ class Expression {
         private:
             string userinput;
             string rpn;
+			string final;
             double dec;
             stack<string> mainStack;
             queue<string> mainQueue;
@@ -26,7 +27,7 @@ class Expression {
             int precedence(string);
             string shunting();
             string evaluate();
-            string reOrder(string);
+            string reOrder();
            
             
 };

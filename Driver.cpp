@@ -90,11 +90,20 @@ int main() {
 }	  */
 												  
 int main()  {
-	Expression* e = new Expression("34-3pi + 68-6pi+45+8pi");
+	string str = "34-3pi-68-2rt:36+45-log_2:8";
+	Expression* e = new Expression(str);
 	cout << e->shunting() << endl;
 	cout << e->evaluate() << endl;
-	Expression* f = new Expression(e->reOrder(e->evaluate())); 
-	//cout << e->reOrder(e->evaluate()) << endl;
-	cout << f->shunting() << endl;
-	cout << f->evaluate() << endl;
+	string eval, reEval, shunt;
+	eval = e->evaluate();
+	reEval = e->reOrder();
+	delete e;
+	while (eval.compare(reEval) != 0) {	  
+		Expression* j = new Expression(reEval);
+		shunt = j->shunting();
+		eval = j->evaluate();
+		reEval = j->reOrder();
+		delete j;
+	}
+	cout << reEval << endl;
 }
