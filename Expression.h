@@ -16,7 +16,7 @@ class Expression {
         private:
             string userinput;
             string rpn;
-			string final;
+            string final;
             double dec;
             stack<string> mainStack;
             queue<string> mainQueue;

@@ -213,7 +213,7 @@ string Expression::evaluate() {
     //while(!rpn.empty()) {
             //Read the next token from input.
             //If the token is a value
-            if (istringstream(oneChar) >> num|| oneChar.find("log") < oneChar.length() || oneChar.find("e") < oneChar.length() || oneChar.find("pi") < oneChar.length()) {
+            if (istringstream(oneChar) >> num|| oneChar.find("rt:") < oneChar.length() || oneChar.find("log") < oneChar.length() || oneChar.find("e") < oneChar.length() || oneChar.find("pi") < oneChar.length()) {
                     //Push it onto the stack.
                  if(isLog(oneChar)) {
                       int base, n;
@@ -387,32 +387,7 @@ string Expression::reOrder() {
 		if (pile.empty()) {
 			pile.push_back(temp);
 		}
-		//if the string is an integer or a fraction then traverse the vector to find the last integer 
-            else if (isInteger(temp) || isFraction(temp)) {
-			//if it begins with an integer or fraction
-			if (isInteger(pile[0]) || isFraction(pile[0])) {  
-			   //iterate through and see where the first log is 
-				for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
-					//once you find a log go back an index and insert
-					if (isLog(*it) || isIrrational(*it) || isNthRoot(*it)) {
-						it--;
-						pile.insert(it, temp);
-						break;
-					}
-					//else if the left has an integer and the right has an irrational insert after left.
-					else if ((isInteger(*it) || isFraction(*it)) && (isLog(*(it + 1)) || isIrrational(*(it + 1)))) {
-						it++;
-						pile.insert(it, temp);
-						break;
-					}
-				}
-				/*while ((isInteger(pile[n]) || isFraction(pile[n])) && n < pile.size()) {
-					vectorIndex++;
-				}	   */
-				//now that we have found the last instance of an integer in the vector insert the string to the next index position.
-			}
-		}
-                else if (isLog(temp) || isIrrational(temp) || isNthRoot(temp)) {
+                        else if (isLog(temp) || isIrrational(temp) || isNthRoot(temp)) {
                     if(isLog(temp)) {
                         for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
                                 if (isLog(*it)) {
@@ -451,7 +426,36 @@ string Expression::reOrder() {
                         pile.push_back(temp);
                     }
 		}
-                
+		//if the string is an integer or a fraction then traverse the vector to find the last integer 
+            else if (isInteger(temp) || isFraction(temp)) {
+			//if it begins with an integer or fraction
+			if (isInteger(pile[0]) || isFraction(pile[0])) {  
+			   //iterate through and see where the first log is 
+				for (vector<string>::iterator it = pile.begin(); it != pile.end(); it++) {
+					//once you find a log go back an index and insert
+                                        if (isLog(*it) || isIrrational(*it) || isNthRoot(*it)) {
+						it--;
+						pile.insert(it, temp);
+						break;
+					}
+                                        else if ((isInteger(*it) || isFraction(*it)) && it == pile.end()) {
+                                                it++;
+						pile.insert(it, temp);
+						break;
+                                        }
+					//else if the left has an integer and the right has an irrational insert after left
+                                        else if ((isInteger(*it) || isFraction(*it)) && (isLog(*(it + 1)) || isIrrational(*(it + 1)))) {
+						it++;
+						pile.insert(it, temp);
+						break;
+					}
+				}
+				/*while ((isInteger(pile[n]) || isFraction(pile[n])) && n < pile.size()) {
+					vectorIndex++;
+				}	   */
+				//now that we have found the last instance of an integer in the vector insert the string to the next index position.
+			}
+		}                
 	}
 	userinput = "";
 	for (size_t n = 0; n < pile.size(); n++) {

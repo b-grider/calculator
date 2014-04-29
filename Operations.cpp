@@ -36,62 +36,74 @@ string simplifyLog(int base, int num) {
         int originalNum = num;
 	//if the left log can be simplified to an int
 	//if the fractions can be simplified
-	vector<int> primeFactors;
-	int j = -1;
-	int counter = 0;
-	int d, ans;
-	//int gcf = 1;
-	d = gcd(base, num);
-	if (num == 1) {
-		return "0";
-	}
-	for (int i = 2; i <= num; i++) {
-		while (num % i == 0) {
-			num /= i;
-			primeFactors.push_back(i);
-			j++;
-			if (primeFactors.at(j) == base) {
-				counter++;
-				primeFactors.pop_back();
-				j--;
-			}
-		}
-	}
-	int temp = 1;
-	while (!primeFactors.empty()) {
-		temp = primeFactors.back();
-		temp *= temp;
-		primeFactors.pop_back();
-	}
-        //int outside = 1;
-        /*int d = (int)root;
-        while (d * d <= num) {
-                if (num % (d * d) == 0) { // inside log evenly divisible by itself
-                        num = num / (d * d);
-                        outside = outside * d;
-                }
-                else {
-                        d = d + 1;
-                }
-	}*/
-	ostringstream remaining, b, c;
-	remaining << temp;
-	b << base;
-	c << counter;
-	if (temp == 1) {
-		return c.str();
-	}
-	if (counter != 0) {
-		return c.str() + " + log_" + b.str() + ":" + remaining.str();
-	}
-	//if counter == 0
-	else {
-		ostringstream b;
-		ostringstream n;
-		b << base;
-		n << originalNum;
-		return "log_" + b.str() + ":" + n.str();
-	}
+	int a = 0;
+        while(originalNum % base == 0 && originalNum >= base) {
+            originalNum /= base;
+            a++;
+        }
+        if(originalNum == 1) {
+            ostringstream mod; 
+            mod << a;
+            return mod.str();
+        }
+        else {
+            vector<int> primeFactors;
+            int j = -1;
+            int counter = 0;
+            int d, ans;
+            //int gcf = 1;
+            d = gcd(base, num);
+            if (num == 1) {
+                    return "0";
+            }
+            for (int i = 2; i <= num; i++) {
+                    while (num % i == 0) {
+                            num /= i;
+                            primeFactors.push_back(i);
+                            j++;
+                            if (primeFactors.at(j) == base) {
+                                    counter++;
+                                    primeFactors.pop_back();
+                                    j--;
+                            }
+                    }
+            }
+            int temp = 1;
+            while (!primeFactors.empty()) {
+                    temp = primeFactors.back();
+                    temp *= temp;
+                    primeFactors.pop_back();
+            }
+            //int outside = 1;
+            /*int d = (int)root;
+            while (d * d <= num) {
+                    if (num % (d * d) == 0) { // inside log evenly divisible by itself
+                            num = num / (d * d);
+                            outside = outside * d;
+                    }
+                    else {
+                            d = d + 1;
+                    }
+            }*/
+            ostringstream remaining, b, c;
+            remaining << temp;
+            b << base;
+            c << counter;
+            if (temp == 1) {
+                    return c.str();
+            }
+            if (counter != 0) {
+                    return c.str() + " + log_" + b.str() + ":" + remaining.str();
+            }
+            //if counter == 0
+            else {
+                    ostringstream b;
+                    ostringstream n;
+                    b << base;
+                    n << originalNum;
+                    return "log_" + b.str() + ":" + n.str();
+            }
+        }
 }
 string simplifyRoot(double root, double base) {
 	double ans;
@@ -693,6 +705,9 @@ string add(string left, string right) {
 					answer = t.str();
 				}
                 else if (isInteger(left) && isFraction(right)) {
+                    if(isIrrational(right)) {
+                        return left + "+" + right;
+                    }
                         string numerator, denominator;
                         int i = 0;
                         string topLeft, topRight, bottomLeft, bottomRight;
@@ -758,6 +773,9 @@ string add(string left, string right) {
 						}
 				}
                 else if (isInteger(right) && isFraction(left)) {
+                    if(isIrrational(left)) {
+                        return left + "+" + right;
+                    }
                         string numerator, denominator;
                         int i = 0;
                         string topLeft, topRight, bottomLeft, bottomRight;
@@ -816,12 +834,12 @@ string add(string left, string right) {
                         ostringstream denom;
                         denom << leftDenom;
                         denominator = denom.str();
-						if (leftDenom == 1) {
-							answer = numerator;
-						}
-						else {
-							answer = numerator + "/" + denominator;
-						}
+                        if (leftDenom == 1) {
+                                answer = numerator;
+                        }
+                        else {
+                                answer = numerator + "/" + denominator;
+                        }
                 }
         }
 	else {
@@ -1246,6 +1264,9 @@ string subtract(string left, string right) {
 			}
 		}
 		else if (isInteger(left) && isFraction(right)) {
+                    if(isIrrational(right)) {
+                        return left + "-" + right;
+                    }
 			string numerator, denominator;
 			int i = 0;
 			string topLeft, topRight, bottomLeft, bottomRight;
@@ -1588,7 +1609,7 @@ string multiply(string left, string right) {
 				answer = finalC + "e";
 			}
 			else if (isPi(left) && isE(right) || isE(left) && isPi(right)) {
-				answer = left + " + " + right;
+				answer = left + " * " + right;
 			}
 		}
 		else if (isLog(left)) {	//BOTH OPERANDS ARE LOGS
@@ -1748,6 +1769,9 @@ string multiply(string left, string right) {
 			answer = t.str();
 		}
 		else if (isInteger(left) && isFraction(right)) {
+                    if(isIrrational(right)) {
+                        return left + "*" + right;
+                    }
 			string numerator, denominator;
 			int i = 0;
 			string topLeft, topRight, bottomLeft, bottomRight;
@@ -1811,6 +1835,9 @@ string multiply(string left, string right) {
 			}
 		}
 		else if (isInteger(right) && isFraction(left)) {
+                    if(isIrrational(left)) {
+                        return left + "*" + right;
+                    }
 			string numerator, denominator;
 			int i = 0;
 			string topLeft, topRight, bottomLeft, bottomRight;
@@ -2297,6 +2324,9 @@ string divide(string left, string right) {
 			}
 		}
                 else if (isInteger(left) && isFraction(right)) {
+                    if(isIrrational(right)) {
+                        return left + "/" + right;
+                    }
                         string numerator, denominator;
                         int i = 0;
                         string topLeft, topRight, bottomLeft, bottomRight;
@@ -2361,6 +2391,9 @@ string divide(string left, string right) {
 						}
                 }
                 else if (isInteger(right) && isFraction(left)) {
+                    if(isIrrational(left)) {
+                        return left + "/" + right;
+                    }
                         string numerator, denominator;
                         int i = 0;
                         string topLeft, topRight, bottomLeft, bottomRight;
@@ -2432,11 +2465,16 @@ string divide(string left, string right) {
 	return answer;
 }
 string exponentiate(string left, string right) {
-    double b, e;
-    istringstream(left) >> b;
-    istringstream(right) >> e;
-    double answer = pow(b, e);
-    ostringstream ans;
-    ans << answer;
-    return ans.str();
+    if(isIrrational(left)) {
+        return left + "^" + right;
+    }
+    else {
+        double b, e;
+        istringstream(left) >> b;
+        istringstream(right) >> e;
+        double answer = pow(b, e);
+        ostringstream ans;
+        ans << answer;
+        return ans.str();
+    }
 }
