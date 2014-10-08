@@ -131,7 +131,7 @@ cout<< Error */
 
       }
 
-     else if(testTwo == 4){
+     else if(testTwo == 5){
             break;
      }
 
